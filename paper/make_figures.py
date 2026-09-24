@@ -20,7 +20,7 @@ HERE = Path(__file__).resolve().parent
 RUNS = HERE / "runs"
 OUT = HERE / "figures"
 OUT.mkdir(exist_ok=True)
-# the deploy package from the `rebuilt` branch (staging.py lives there)
+# the deploy package of this repository (staging.py lives there)
 DEPLOY = Path(os.environ.get("SURGICAI_DEPLOY", HERE.parent / "deploy"))
 sys.path.insert(0, str(DEPLOY))
 

@@ -38,15 +38,19 @@ From Hierarchical Policies in Simulation to a Guarded\\
 Needle-Handling Pipeline on a Real dVRK
 }
 
-\author{Xiangrui Sun$^{1}$ and Jiaming Wen$^{2}$% <-this % stops a space
+\author{Xiangrui Sun$^{1}$, Jiaming Wen$^{2}$, Adnan Munawar$^{1,\dagger}$, and Anqi Liu$^{3,\dagger}$% <-this % stops a space
 \thanks{*This work was not supported by any organization}% <-this % stops a space
 \thanks{\textbf{Draft manuscript prepared for publication.} Results, figures and text are
         preliminary and subject to change.}%
-\thanks{$^{1}$Xiangrui Sun is with the Laboratory for Computational Sensing and Robotics,
-        Johns Hopkins University, Baltimore, MD 21218, USA
+\thanks{$^{\dagger}$Corresponding authors: Adnan Munawar {\tt\small amunawa2@jhu.edu};
+        Anqi Liu {\tt\small aliu.cs@jhu.edu}.}%
+\thanks{$^{1}$Xiangrui Sun and Adnan Munawar are with the Laboratory for Computational
+        Sensing and Robotics, Johns Hopkins University, Baltimore, MD 21218, USA
         {\tt\small xsun97@jh.edu}}%
 \thanks{$^{2}$Jiaming Wen is with \todo{affiliation}
         {\tt\small \todo{email}}}%
+\thanks{$^{3}$Anqi Liu is with the Department of Computer Science,
+        Johns Hopkins University, Baltimore, MD 21218, USA}%
 }
 
 
@@ -718,8 +722,8 @@ orientation tolerance.
 \textbf{Reproducibility.} The hierarchy replication is on branch
 \texttt{jin-hierarchical-repro} of \texttt{xiangruiSun/SurgicAI}
 (\texttt{RL/run\_jin\_hierarchical.py}). The deployment, calibration and all
-offline tools are on branch \texttt{rebuilt} of
-\texttt{xiangruiSun/surgical-rl-only} (\texttt{deploy/}). The replay numbers
+offline tools are in the project repository under \texttt{deploy/}, with the
+simulation environments under \texttt{src/SurgicAI/RL/}. The replay numbers
 come from \texttt{tools/replay\_demos.py}, the staging analysis from
 \texttt{tools/workspace\_spec.py}, the residual structure from
 \texttt{tools/residual\_structure.py} and the rehearsals from

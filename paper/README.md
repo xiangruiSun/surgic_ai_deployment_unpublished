@@ -7,7 +7,8 @@
 **[Read the PDF → `surgical_rl_draft.pdf`](surgical_rl_draft.pdf)**
 
 *Autonomous Suturing Task: From Hierarchical Policies in Simulation to a Guarded
-Needle-Handling Pipeline on a Real dVRK* — Xiangrui Sun, Jiaming Wen.
+Needle-Handling Pipeline on a Real dVRK* — Xiangrui Sun, Jiaming Wen,
+Adnan Munawar\*, Anqi Liu\* (\*corresponding authors).
 
 ## What is in it
 
@@ -15,8 +16,8 @@ Needle-Handling Pipeline on a Real dVRK* — Xiangrui Sun, Jiaming Wen.
 |---|---|
 | Hierarchical SurgicAI pipeline re-run on ROS 2 / AMBF 3 (11/20 full sutures vs. 52% published) | `xiangruiSun/SurgicAI`, branch `jin-hierarchical-repro`, `RL/HIERARCHICAL_README.md` |
 | Perception: sim-fine-tuned Depth Anything V2, FoundationPose, ArUco hand-eye | perception pipeline (Jiaming) |
-| Deployment contract, the three defects, staging, phase machine, deadband | this repo, branch `rebuilt`, `deploy/` |
-| Two-stage grasp calibration and first hardware samples | this repo, branch `rebuilt`, `deploy/surgicai_rl_deploy/calib/` |
+| Deployment contract, the three defects, staging, phase machine, deadband | `deploy/` |
+| Two-stage grasp calibration and first hardware samples | `deploy/surgicai_rl_deploy/calib/` |
 
 ## Files
 
@@ -32,11 +33,10 @@ runs/*.json              offline rehearsal traces used by the figures
 ## Rebuild
 
 ```bash
-# figures (needs numpy, scipy, matplotlib and the deploy package from `rebuilt`)
-git worktree add ../rebuilt-wt rebuilt
-SURGICAI_DEPLOY=../rebuilt-wt/deploy python3 make_figures.py
+# figures (needs numpy, scipy, matplotlib; uses ../deploy)
+python3 make_figures.py
 
-# rehearsal traces, if you want to regenerate runs/ too (from rebuilt/deploy)
+# rehearsal traces, if you want to regenerate runs/ too (run from ../deploy)
 python3 tools/offline_grasp_lift.py \
   --start-pos -0.05639860616831881 0.03366166453830251 0.024455994074878362 \
   --start-quat 0.23319925218484056 0.4267863636861243 -0.23588767438897446 0.841325450478807 \
