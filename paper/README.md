@@ -7,8 +7,9 @@
 **[Read the PDF → `surgical_rl_draft.pdf`](surgical_rl_draft.pdf)**
 
 *Autonomous Suturing Task: From Hierarchical Policies in Simulation to a Guarded
-Needle-Handling Pipeline on a Real dVRK* — Xiangrui Sun, Jiaming Wen,
-Adnan Munawar\*, Anqi Liu\* (\*corresponding authors).
+Needle-Handling Pipeline on a Real dVRK* — Xiangrui Sun‡, Jiaming Wen‡,
+Adnan Munawar\*, Anqi Liu\* (‡equal contribution, co-first authors;
+\*corresponding authors).
 
 ## What is in it
 

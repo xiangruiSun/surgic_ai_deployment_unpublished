@@ -2,7 +2,7 @@
 
 > 📄 **Draft paper (prepared for publication, not yet peer reviewed):**
 > [*Autonomous Suturing Task: From Hierarchical Policies in Simulation to a Guarded Needle-Handling Pipeline on a Real dVRK*](paper/surgical_rl_draft.pdf)
-> — Xiangrui Sun, Jiaming Wen, Adnan Munawar\*, Anqi Liu\* (\*corresponding authors). Sources and figures in [`paper/`](paper/README.md).
+> — Xiangrui Sun‡, Jiaming Wen‡, Adnan Munawar\*, Anqi Liu\* (‡equal contribution, co-first authors; \*corresponding authors). Sources and figures in [`paper/`](paper/README.md).
 
 This repository takes the reinforcement-learning suturing policies of
 [SurgicAI](https://github.com/surgical-robotics-ai/SurgicAI) (NeurIPS 2024) and
