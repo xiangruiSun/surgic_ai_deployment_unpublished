@@ -1,0 +1,634 @@
+"""Fail-closed precheck, run before a single command is published.
+
+Why this file exists
+--------------------
+The R6 checkpoint is a *single-goal* policy: 50 demonstrations inside a
++-3 mm / +-15 deg box.  Anything outside that is out of distribution, and the
+offline replays in ``docs``/the project findings show the policy orbiting the
+goal rather than reaching it.  "Extending the workspace" for an RL policy means
+retraining.
+
+The servo does not have that problem -- it is geometry, not a learned map, and
+it works anywhere the arm can physically go.  So the workspace question stops
+being "is this inside the trained region" and becomes "is this inside the
+*reachable and safe* region", which is a set of checks that can be evaluated
+up front, on numbers, before the arm moves.  That is what this module does.
+
+Every check returns ``pass``, ``warn`` or ``fail``.  One ``fail`` and the
+episode does not start.  A ``warn`` is printed, recorded in the trace, and the
+episode proceeds -- with ``--strict`` every warning becomes a failure.
+"""
+
+from __future__ import annotations
+
+from dataclasses import dataclass, field
+from typing import Optional
+
+import numpy as np
+
+from .contract import (
+    R6_START_OFFSET_TOOL_MAX,
+    R6_START_OFFSET_TOOL_MIN,
+    R6_START_ROT_DEG_MAX,
+    R6_START_ROT_DEG_MIN,
+    SUPPORT_EPS_CM,
+)
+from .frames import rotation_error_rad
+from .jaw import JawBaseline
+from .plan import GraspLiftPlan
+
+PASS, WARN, FAIL = "pass", "warn", "fail"
+
+
+@dataclass
+class Check:
+    name: str
+    status: str
+    message: str
+    detail: dict = field(default_factory=dict)
+
+    def as_dict(self) -> dict:
+        return {
+            "name": self.name,
+            "status": self.status,
+            "message": self.message,
+            "detail": self.detail,
+        }
+
+
+@dataclass
+class PrecheckReport:
+    checks: list = field(default_factory=list)
+    strict: bool = False
+
+    def add(self, name, status, message, **detail):
+        self.checks.append(Check(name, status, message, detail))
+
+    @property
+    def failures(self):
+        bad = [c for c in self.checks if c.status == FAIL]
+        if self.strict:
+            bad = bad + [c for c in self.checks if c.status == WARN]
+        return bad
+
+    @property
+    def warnings(self):
+        return [c for c in self.checks if c.status == WARN]
+
+    @property
+    def ok(self) -> bool:
+        return not self.failures
+
+    def render(self) -> str:
+        glyph = {PASS: "  ok  ", WARN: " WARN ", FAIL: " FAIL "}
+        lines = [f"[{glyph[c.status]}] {c.name}: {c.message}" for c in self.checks]
+        lines.append("")
+        if self.ok:
+            lines.append(
+                f"PRECHECK PASS ({len(self.warnings)} warning(s))"
+                if self.warnings
+                else "PRECHECK PASS"
+            )
+        else:
+            lines.append(f"PRECHECK FAIL ({len(self.failures)} blocking)")
+        return "\n".join(lines)
+
+    def as_dict(self) -> dict:
+        return {
+            "ok": self.ok,
+            "strict": self.strict,
+            "checks": [c.as_dict() for c in self.checks],
+        }
+
+
+def precheck(
+    plan: GraspLiftPlan,
+    *,
+    controller: str = "d2",
+    execute: bool = False,
+    grasp_gate: str = "manual",
+    jaw_baseline: Optional[JawBaseline] = None,
+    max_path_radius_cm: float = 8.0,
+    limit_low_m=None,
+    limit_high_m=None,
+    max_step_translation_mm: float = 2.5,
+    max_step_rotation_deg: float = 5.0,
+    approach_max_steps: int = 200,
+    descend_max_steps: int = 200,
+    descend_step_mm: float = 0.5,
+    min_command_mm: float = 0.0,
+    tolerances_mm: Optional[dict] = None,
+    lift_max_steps: int = 120,
+    transport_max_steps: int = 600,
+    place_max_steps: int = 400,
+    success_trans_cm: float = 1.0,
+    success_rot_deg: float = 10.0,
+    suture_confirmed: bool = False,
+    stage_contract=None,
+    strict: bool = False,
+) -> PrecheckReport:
+    report = PrecheckReport(strict=strict)
+
+    # -- 1. the numbers themselves -----------------------------------------
+    waypoints = plan.waypoints
+    pts = np.stack([pose.p for _, pose in waypoints])
+    if not np.isfinite(pts).all():
+        report.add("inputs", FAIL, "a waypoint is not finite")
+        return report
+    summary = (
+        f"approach {plan.approach_travel_cm:.2f} cm / "
+        f"{plan.approach_rotation_deg:.1f} deg, lift {plan.lift_travel_cm:.2f} cm"
+    )
+    if plan.suture is not None:
+        summary += (
+            f", transport {plan.transport_travel_cm:.2f} cm / "
+            f"{plan.transport_rotation_deg:.1f} deg"
+        )
+    report.add(
+        "inputs",
+        PASS,
+        f"{len(waypoints)} waypoints: " + " -> ".join(n for n, _ in waypoints)
+        + ".  " + summary,
+        **{f"{name}_cm": (pose.p * 100).tolist() for name, pose in waypoints},
+    )
+
+    # -- 2. the lift direction is a human decision -------------------------
+    if plan.lift_spec.explicit:
+        report.add(
+            "lift_direction",
+            PASS,
+            f"operator-confirmed: {plan.lift_spec.describe()}",
+            direction=plan.lift_spec.direction(plan.grasp).tolist(),
+        )
+    else:
+        report.add(
+            "lift_direction",
+            FAIL if execute else WARN,
+            "the lift sign was not stated on the command line. Pass --lift-sign "
+            "+1 or -1 after checking, in the scene, which way moves the gripper "
+            "AWAY from the tissue. A wrong sign drives the needle into the pad.",
+            direction=plan.lift_spec.direction(plan.grasp).tolist(),
+        )
+
+    # -- 3. does the lift continue into the approach direction? ------------
+    approach_vec = plan.grasp.p - plan.start.p
+    approach_norm = float(np.linalg.norm(approach_vec))
+    lift_dir = plan.lift_spec.direction(plan.grasp)
+    if approach_norm > 1e-6:
+        cos = float(np.dot(lift_dir, approach_vec / approach_norm))
+        if cos > 0.5:
+            report.add(
+                "lift_vs_approach",
+                WARN,
+                f"the lift points {np.degrees(np.arccos(np.clip(cos, -1, 1))):.0f} deg "
+                "from the approach direction, i.e. it keeps going the way the "
+                "gripper came in. If the needle is lying on tissue, that is into "
+                "the tissue. Check the sign.",
+                cos=cos,
+            )
+        else:
+            report.add(
+                "lift_vs_approach",
+                PASS,
+                f"the lift turns {np.degrees(np.arccos(np.clip(cos, -1, 1))):.0f} deg "
+                "away from the approach direction",
+                cos=cos,
+            )
+    else:
+        report.add(
+            "lift_vs_approach", WARN, "start and grasp coincide; no approach direction"
+        )
+
+    # -- 3z. can any of these tolerances be reached at all? ------------------
+    if min_command_mm > 0.0 and tolerances_mm:
+        unreachable = {
+            name: mm for name, mm in tolerances_mm.items() if mm < min_command_mm
+        }
+        if unreachable:
+            detail = ", ".join(
+                f"{name} {mm:.2f} mm" for name, mm in sorted(unreachable.items())
+            )
+            report.add(
+                "tolerance_vs_deadband",
+                FAIL,
+                f"this arm ignores commanded displacements below "
+                f"{min_command_mm:.2f} mm, so it cannot be brought within "
+                f"{detail}. Those segments would run to their step budget and "
+                "abort, having done nothing wrong. Widen the tolerance to at "
+                "least the deadband, or reduce the deadband if the arm is "
+                "actually capable of finer motion than --min-command-mm claims.",
+                deadband_mm=min_command_mm,
+                unreachable=unreachable,
+            )
+        else:
+            report.add(
+                "tolerance_vs_deadband",
+                PASS,
+                f"every segment tolerance is at or above this arm's "
+                f"{min_command_mm:.2f} mm deadband",
+                deadband_mm=min_command_mm,
+                tolerances_mm=tolerances_mm,
+            )
+
+    # -- 3a. the standoff the policy actually aims at -----------------------
+    if plan.hover is not None:
+        axis_mm = float(
+            np.dot(plan.grasp.p - plan.hover.p, plan.grasp.R[:, 2]) * 1000.0
+        )
+        off_axis_mm = float(
+            np.linalg.norm(
+                (plan.grasp.p - plan.hover.p)
+                - plan.grasp.R[:, 2] * np.dot(plan.grasp.p - plan.hover.p,
+                                              plan.grasp.R[:, 2])
+            ) * 1000.0
+        )
+        report.add(
+            "grasp_standoff",
+            PASS,
+            f"the approach policy aims {axis_mm:.1f} mm short of the grasp pose, "
+            "along the tool axis, which is where its training goal sits "
+            "(needle_goal_evaluator lift_height). The last "
+            f"{axis_mm:.1f} mm is a separate, slower descent.",
+            axis_mm=axis_mm,
+            off_axis_mm=off_axis_mm,
+        )
+    else:
+        report.add(
+            "grasp_standoff",
+            WARN if controller in ("rl", "residual") else PASS,
+            "no grasp standoff: the approach is aimed straight at the grasp "
+            "pose. The trained goal sits 7 mm short of it along the tool axis, "
+            "and in simulation the grasp is faked at that standoff, so a policy "
+            "asked to arrive AT the needle is being asked for a pose it was "
+            "never trained to reach. Pass --grasp-standoff-mm 7.",
+        )
+
+    # -- 3b. the suturing leg ----------------------------------------------
+    if plan.suture is not None:
+        if suture_confirmed:
+            report.add(
+                "suture_pose",
+                PASS,
+                "operator-confirmed tool pose at the suturing point",
+                suture_cm=(plan.suture.p * 100).tolist(),
+                suture_quat_xyzw=plan.suture.quat_xyzw().tolist(),
+            )
+        else:
+            report.add(
+                "suture_pose",
+                FAIL if execute else WARN,
+                "the suturing pose was not confirmed (--suture-confirmed). It is "
+                "the TOOL pose -- what measured_cp should read -- not the needle "
+                "pose. Where the needle ends up also depends on how it sits in "
+                "the jaws, which nothing here measures, so this number has to "
+                "come from someone who looked at the scene.",
+            )
+
+        lift_dir = plan.lift_spec.direction(plan.grasp)
+        if plan.via is None:
+            report.add(
+                "transport_clearance",
+                WARN,
+                "transport is set to 'direct', so the path from the lift pose to "
+                "the suturing pose is a straight line. With a needle in the jaws "
+                "that line can pass below the tissue plane in the middle. "
+                "--transport-via lift_height goes over the top instead.",
+            )
+        else:
+            drop = float(np.dot(plan.suture.p - plan.via.p, -lift_dir) * 100.0)
+            # the descent, split into the part along the lift axis and the part
+            # across it.  Subtracting the parallel component is the whole point;
+            # adding it (as this did until 2026-09-16) doubles a purely vertical
+            # descent and reports the lift distance twice over as "drift".
+            descent = plan.suture.p - plan.via.p
+            lateral = float(
+                np.linalg.norm(descent - lift_dir * np.dot(descent, lift_dir))
+                * 100.0
+            )
+            if drop <= 0.0:
+                report.add(
+                    "transport_clearance",
+                    FAIL,
+                    f"the final segment moves {abs(drop):.2f} cm along the lift "
+                    "direction rather than against it, so the 'descent' onto the "
+                    "suturing point is actually a retreat. Check --lift-sign.",
+                    drop_cm=drop,
+                )
+            else:
+                report.add(
+                    "transport_clearance",
+                    PASS,
+                    f"transport travels at height then descends {drop:.2f} cm onto "
+                    f"the suturing pose (lateral drift during the descent "
+                    f"{lateral:.3f} cm)",
+                    drop_cm=drop,
+                    lateral_cm=lateral,
+                )
+
+        turn = plan.transport_rotation_deg
+        report.add(
+            "transport_rotation",
+            WARN if turn > 120.0 else PASS,
+            f"the wrist turns {turn:.1f} deg between the lift pose and the "
+            "suturing pose"
+            + (
+                ". That is a large rotation to make with a needle held; check it "
+                "does not sweep the needle through anything, and that the wrist "
+                "does not pass through a singularity."
+                if turn > 120.0 else ""
+            ),
+            rotation_deg=turn,
+        )
+
+    # -- 3c. is the approach policy being started in distribution? ---------
+    if stage_contract is not None:
+        from .staging import support_report
+
+        origin = plan.staged if plan.staged is not None else plan.start
+        rep = support_report(origin, plan.grasp, stage_contract)
+        where = "staging pose" if plan.staged is not None else "measured start pose"
+        if rep["in_support"]:
+            report.add(
+                "training_support",
+                PASS,
+                f"the {where} puts the approach leg inside {stage_contract.name}'s "
+                f"demonstrated support (margin "
+                f"{np.min(rep['box_margin_cm']):.2f} cm, "
+                f"{rep['rotation_margin_deg']:.1f} deg)",
+                offset_tool_cm=rep["offset_tool_cm"].tolist(),
+                rotation_deg=rep["rotation_deg"],
+            )
+        else:
+            report.add(
+                "training_support",
+                WARN if controller in ("rl", "residual") else PASS,
+                f"the {where} is outside {stage_contract.name}'s demonstrated "
+                f"support: {'; '.join(rep['reasons'])}"
+                + (
+                    "" if controller in ("rl", "residual")
+                    else ". Reported for comparison only -- the geometric servo "
+                         "has no trained region."
+                ),
+                offset_tool_cm=rep["offset_tool_cm"].tolist(),
+                rotation_deg=rep["rotation_deg"],
+            )
+
+    # -- 4. reachability, as a radius around the measured start ------------
+    radius = plan.path_radius_cm()
+    if radius > max_path_radius_cm:
+        report.add(
+            "path_radius",
+            FAIL,
+            f"the path reaches {radius:.2f} cm from the measured start pose, past "
+            f"the {max_path_radius_cm:.1f} cm limit. Either the goal is wrong, is "
+            "in the wrong frame, or this needs a planned motion rather than a "
+            "servo. Raise --max-path-radius-cm only if you know the arm covers it.",
+            radius_cm=radius,
+        )
+    else:
+        report.add(
+            "path_radius",
+            PASS,
+            f"every waypoint within {radius:.2f} cm of the start "
+            f"(limit {max_path_radius_cm:.1f} cm)",
+            radius_cm=radius,
+        )
+
+    # -- 5. the operator's own hard box ------------------------------------
+    if limit_low_m is not None and limit_high_m is not None:
+        low = np.asarray(limit_low_m, dtype=np.float64).reshape(3)
+        high = np.asarray(limit_high_m, dtype=np.float64).reshape(3)
+        if np.any(high <= low):
+            report.add("hard_limits", FAIL, "--limit-high must exceed --limit-low")
+        else:
+            outside = [
+                name
+                for name, pose in waypoints
+                if np.any(pose.p < low) or np.any(pose.p > high)
+            ]
+            if outside:
+                report.add(
+                    "hard_limits",
+                    FAIL,
+                    f"outside the operator limit box: {', '.join(outside)}",
+                    low_cm=(low * 100).tolist(),
+                    high_cm=(high * 100).tolist(),
+                )
+            else:
+                report.add(
+                    "hard_limits",
+                    PASS,
+                    "all waypoints inside the operator limit box",
+                    low_cm=(low * 100).tolist(),
+                    high_cm=(high * 100).tolist(),
+                )
+    else:
+        report.add(
+            "hard_limits",
+            WARN if execute else PASS,
+            "no operator limit box given (--limit-low/--limit-high). The only "
+            "positional guard is the padded box around the waypoints.",
+        )
+
+    # -- 6. can the segments finish inside their step budgets? -------------
+    step_m = max_step_translation_mm / 1000.0
+    step_deg = max(max_step_rotation_deg, 1e-6)
+    segments = [
+        ("approach", plan.approach_travel_cm, plan.approach_rotation_deg,
+         approach_max_steps),
+        ("lift", plan.lift_travel_cm, 0.0, lift_max_steps),
+    ]
+    if plan.hover is not None:
+        # the descent runs at its own, slower, per-step cap -- unless the arm's
+        # deadband is larger, in which case that is the real step
+        effective = max(descend_step_mm, min_command_mm)
+        if min_command_mm > descend_step_mm:
+            report.add(
+                "descend_step",
+                WARN,
+                f"the descent was asked for {descend_step_mm:.2f} mm per cycle "
+                f"but this arm ignores commands below {min_command_mm:.2f} mm, "
+                f"so it will actually descend in {effective:.2f} mm steps. The "
+                "last motion before the jaws close is therefore as gentle as "
+                "the arm allows and no gentler.",
+                asked_mm=descend_step_mm,
+                effective_mm=effective,
+            )
+        need = 2.0 * (plan.grasp_standoff_m * 1000.0) / max(effective, 1e-6)
+        report.add(
+            "step_budget_descend",
+            FAIL if need > descend_max_steps else PASS,
+            f"descend needs roughly {need:.0f} of {descend_max_steps} cycles at "
+            f"{effective:.2f} mm per step",
+            needed=need,
+        )
+    if plan.staged is not None:
+        segments.insert(0, (
+            "stage",
+            float(np.linalg.norm(plan.staged.p - plan.start.p) * 100.0),
+            float(np.degrees(rotation_error_rad(plan.start, plan.staged))),
+            approach_max_steps,
+        ))
+    if plan.suture is not None:
+        via = plan.via or plan.suture
+        segments.append((
+            "transport",
+            float(np.linalg.norm(via.p - plan.lifted.p) * 100.0),
+            float(np.degrees(rotation_error_rad(plan.lifted, via))),
+            transport_max_steps,
+        ))
+        if plan.via is not None:
+            segments.append((
+                "place",
+                float(np.linalg.norm(plan.suture.p - via.p) * 100.0),
+                float(np.degrees(rotation_error_rad(via, plan.suture))),
+                place_max_steps,
+            ))
+    for seg, travel_cm, rot_deg, budget in segments:
+        # A proportional servo never moves a full step near the goal, so the
+        # geometric minimum is doubled to leave convergence headroom.
+        need = 2.0 * max(travel_cm / 100.0 / step_m, rot_deg / step_deg)
+        if need > budget:
+            report.add(
+                f"step_budget_{seg}",
+                FAIL,
+                f"{seg} needs roughly {need:.0f} cycles at the current per-step "
+                f"cap but the budget is {budget}. Raise the budget or the caps.",
+                estimated_steps=need,
+                budget=budget,
+            )
+        else:
+            report.add(
+                f"step_budget_{seg}",
+                PASS,
+                f"{seg} needs roughly {need:.0f} of {budget} cycles",
+                estimated_steps=need,
+                budget=budget,
+            )
+
+    # -- 7. success tolerance vs the lift itself ---------------------------
+    if success_trans_cm >= plan.lift_travel_cm:
+        report.add(
+            "lift_tolerance",
+            FAIL,
+            f"the {success_trans_cm:.2f} cm success tolerance is at least as "
+            f"large as the {plan.lift_travel_cm:.2f} cm lift: the lift would "
+            "report success without moving. Use --lift-success-trans-cm.",
+        )
+    else:
+        report.add(
+            "lift_tolerance",
+            PASS,
+            f"success tolerance {success_trans_cm:.2f} cm is well inside the "
+            f"{plan.lift_travel_cm:.2f} cm lift",
+        )
+
+    # -- 8. the grasp gate --------------------------------------------------
+    if grasp_gate == "evidence":
+        if jaw_baseline is None:
+            report.add(
+                "grasp_gate",
+                FAIL,
+                "--grasp-gate evidence needs an empty-jaw baseline to compare "
+                "against. Run tools/calibrate_jaw.py, or use --grasp-gate manual.",
+            )
+        else:
+            report.add(
+                "grasp_gate",
+                WARN,
+                "the lift will be released by jaw evidence alone. That evidence "
+                "says the jaw stopped early, which is NOT a confirmed grasp on "
+                f"this hardware. Baseline source: {jaw_baseline.source}",
+                baseline=jaw_baseline.as_dict(),
+            )
+    elif grasp_gate == "manual":
+        report.add(
+            "grasp_gate",
+            PASS,
+            "the arm will stop with the jaw closed and wait for a human to "
+            "release the lift",
+        )
+    elif grasp_gate == "always":
+        report.add(
+            "grasp_gate",
+            WARN if execute else PASS,
+            "--grasp-gate always: the lift runs whether or not anything is in "
+            "the jaws. Intended for dry runs and empty-gripper rehearsals.",
+        )
+    elif grasp_gate == "never":
+        report.add(
+            "grasp_gate", PASS, "the episode stops after the jaw closes; no lift"
+        )
+    else:
+        report.add("grasp_gate", FAIL, f"unknown grasp gate {grasp_gate!r}")
+
+    if jaw_baseline is None and grasp_gate != "evidence":
+        report.add(
+            "jaw_baseline",
+            WARN,
+            "no empty-jaw baseline loaded: jaw readings will be logged raw, with "
+            "no reference for what an empty close looks like on this arm",
+        )
+    elif jaw_baseline is not None:
+        report.add(
+            "jaw_baseline",
+            PASS,
+            f"empty-jaw baseline loaded ({jaw_baseline.source})",
+            baseline=jaw_baseline.as_dict(),
+        )
+
+    # -- 9. where the approach sits relative to the R6 training support ----
+    dp_tool_cm = plan.start.R.T @ ((plan.grasp.p - plan.start.p) * 100.0)
+    offenders = []
+    axes = "xyz"
+    for i in range(3):
+        if (
+            dp_tool_cm[i] < R6_START_OFFSET_TOOL_MIN[i] - SUPPORT_EPS_CM
+            or dp_tool_cm[i] > R6_START_OFFSET_TOOL_MAX[i] + SUPPORT_EPS_CM
+        ):
+            offenders.append(
+                f"tool-{axes[i]} {dp_tool_cm[i]:+.2f} cm outside "
+                f"[{R6_START_OFFSET_TOOL_MIN[i]:+.2f}, {R6_START_OFFSET_TOOL_MAX[i]:+.2f}]"
+            )
+    rot_deg = plan.approach_rotation_deg
+    if not (R6_START_ROT_DEG_MIN <= rot_deg <= R6_START_ROT_DEG_MAX):
+        offenders.append(
+            f"start->goal rotation {rot_deg:.1f} deg outside "
+            f"[{R6_START_ROT_DEG_MIN:.1f}, {R6_START_ROT_DEG_MAX:.1f}]"
+        )
+
+    if controller in ("rl", "residual"):
+        if offenders:
+            report.add(
+                "r6_training_support",
+                FAIL if strict else WARN,
+                "the approach is outside the R6 demonstration support, where the "
+                "policy has been measured to orbit the goal rather than reach it: "
+                + "; ".join(offenders),
+                offenders=offenders,
+                start_offset_tool_cm=dp_tool_cm.tolist(),
+            )
+        else:
+            report.add(
+                "r6_training_support",
+                PASS,
+                "the approach sits inside the R6 demonstration support",
+                start_offset_tool_cm=dp_tool_cm.tolist(),
+            )
+    else:
+        report.add(
+            "r6_training_support",
+            PASS,
+            f"controller '{controller}' is geometric, so the R6 trained region "
+            "does not bound it"
+            + (f" (for reference, the RL support check would flag: {'; '.join(offenders)})"
+               if offenders else ""),
+            offenders=offenders,
+            start_offset_tool_cm=dp_tool_cm.tolist(),
+            applies=False,
+        )
+
+    # -- 10. the jaw itself -------------------------------------------------
+    report.add("jaw_calibration", PASS, plan.jaw.describe(), **plan.jaw.as_dict())
+
+    return report

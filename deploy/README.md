@@ -1,5 +1,28 @@
 # SurgicAI Approach — RL deployment on a real dVRK PSM
 
+> **Vision-guided grasping lives in
+> [`README_CALIBRATION.md`](README_CALIBRATION.md)**: the two-stage calibration
+> that turns a FoundationPose estimate into the `measured_cp` target expected to
+> grasp the needle, and `--needle-pose` / `--grasp-calibration` in place of
+> typing `--grasp-pos` by hand.
+>
+> **The full pipeline now lives in [`README_GRASP_LIFT.md`](README_GRASP_LIFT.md)**
+> (`run_pipeline.py`): stage → approach → close the jaw → observe → lift →
+> transport → place the needle at the suturing point, with a fail-closed
+> precheck and an operator gate. This file still describes the approach-only
+> path (`run_approach.py`).
+>
+> **Three contract defects were found and fixed since this file was written,
+> and they invalidate the RL comparisons below.** The RPY roll branch, the
+> action scale (there are two, and the recoverable one is the wrong one), and a
+> closed-loop observation where training was open-loop. With all three fixed
+> the upstream Approach checkpoint reproduces 45/50 of its own demonstration
+> episodes through this loop, against a published 96% ± 6%. See the "RPY branch
+> defect", "two action scales" and "observation was closed-loop" sections of
+> the grasp-lift guide, and re-measure with `tools/replay_demos.py` before
+> citing any RL number from this page.
+
+
 Runs the released `r6_unified_single_goal_yaw15_seed1_final.zip` checkpoint (or
 the D2 servo, or a blend) as a closed loop against `PSM1/measured_cp`, using
 nothing but a **start pose** (read from the arm) and a **goal position** (given
@@ -179,7 +202,8 @@ absolute block of the 21-dim observation is off-distribution.
 ## Layout
 
 ```
-run_approach.py                 ROS 2 entry point
+run_approach.py                 ROS 2 entry point (approach only)
+run_grasp_lift.py               ROS 2 entry point (approach + grasp + lift)
 requirements-deploy.txt
 surgicai_rl_deploy/
   contract.py                   frozen obs/action contract + measured training support
@@ -189,10 +213,36 @@ surgicai_rl_deploy/
   controllers.py                RL / D2 servo / residual blend
   loop.py                       the closed loop, safety clamps, success test
   ros_node.py                   topics, dry run, JSONL trace
+  sequence.py                   grasp+lift phase machine  (README_GRASP_LIFT.md)
+  jaw.py                        jaw units and grasp evidence          "
+  plan.py                       start / grasp / lifted geometry       "
+  feasibility.py                fail-closed precheck                  "
+  grasp_lift_node.py            grasp+lift ROS node                   "
+  mock.py                       kinematic arm + jaw model             "
+  calib/                        vision-guided grasp calibration   (README_CALIBRATION.md)
+    bernstein.py                the basis, the lift, the exact curvature penalty
+    models.py                   the fitted field, its box, the convex-hull bound
+    perception.py               needle geometry, ^E T_C, pose-flip detection
+    dataset.py                  placements, repeats, the noise floor
+    fit.py                      the penalised, optionally robust, solve
+    validate.py                 grouped cross-validation and the model ladder
+    simulate.py                 a synthetic robot with known faults
+    resolve.py                  the runtime path and its refusals
+    cli.py                      --needle-pose becoming --grasp-pos
 tools/
   inspect_checkpoint.py         what the checkpoint contains and was trained on
   verify_contract.py            observation builder vs the checkpoint's own data
   offline_check.py              replay against a kinematic mock, no robot
+  offline_grasp_lift.py         replay the whole grasp+lift sequence, no robot
+  plan_r6_start.py              solve a start pose inside the RL policy's support
+  sweep_r6_support.py           does the policy work anywhere in that support?
+  recover_step_size.py          recover the action scale from a checkpoint's demos
+  calibrate_jaw.py              what an empty jaw close looks like on your arm
+  residual_structure.py         what the grasp residual looks like, before any data
+  collect_grasp_calibration.py  plan, ingest and audit a calibration session
+  fit_grasp_calibration.py      fit the correction and report whether it earned its place
+  rehearse_grasp_calibration.py power analysis and the two controls
+tests/                          563 tests; no ROS, no robot, no checkpoint
 ```
 
 ## Contract notes
