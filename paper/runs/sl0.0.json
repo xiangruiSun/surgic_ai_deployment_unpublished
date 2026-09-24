@@ -1,0 +1,7236 @@
+{
+  "precheck": {
+    "ok": true,
+    "strict": false,
+    "checks": [
+      {
+        "name": "inputs",
+        "status": "pass",
+        "message": "6 waypoints: start -> hover -> grasp -> lifted -> via -> suture.  approach 3.16 cm / 0.0 deg, lift 1.50 cm, transport 3.27 cm / 65.4 deg",
+        "detail": {
+          "start_cm": [
+            -5.63986061683188,
+            3.366166453830251,
+            2.445599407487836
+          ],
+          "hover_cm": [
+            -5.498316060587034,
+            1.9488550521612105,
+            4.582545188027192
+          ],
+          "grasp_cm": [
+            -5.0726357,
+            1.5332369000000001,
+            4.9514053
+          ],
+          "lifted_cm": [
+            -5.0726357,
+            1.5332369000000001,
+            3.4514053000000002
+          ],
+          "via_cm": [
+            -4.0,
+            0.5,
+            2.5
+          ],
+          "suture_cm": [
+            -4.0,
+            0.5,
+            4.0
+          ]
+        }
+      },
+      {
+        "name": "lift_direction",
+        "status": "pass",
+        "message": "operator-confirmed: 1.50 cm along -z of the robot frame",
+        "detail": {
+          "direction": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        }
+      },
+      {
+        "name": "lift_vs_approach",
+        "status": "pass",
+        "message": "the lift turns 143 deg away from the approach direction",
+        "detail": {
+          "cos": -0.7939775217911513
+        }
+      },
+      {
+        "name": "grasp_standoff",
+        "status": "pass",
+        "message": "the approach policy aims 7.0 mm short of the grasp pose, along the tool axis, which is where its training goal sits (needle_goal_evaluator lift_height). The last 7.0 mm is a separate, slower descent.",
+        "detail": {
+          "axis_mm": 6.999999999999997,
+          "off_axis_mm": 3.705370968959021e-15
+        }
+      },
+      {
+        "name": "suture_pose",
+        "status": "pass",
+        "message": "operator-confirmed tool pose at the suturing point",
+        "detail": {
+          "suture_cm": [
+            -4.0,
+            0.5,
+            4.0
+          ],
+          "suture_quat_xyzw": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        }
+      },
+      {
+        "name": "transport_clearance",
+        "status": "pass",
+        "message": "transport travels at height then descends 1.50 cm onto the suturing pose (lateral drift during the descent 0.000 cm)",
+        "detail": {
+          "drop_cm": 1.5,
+          "lateral_cm": 0.0
+        }
+      },
+      {
+        "name": "transport_rotation",
+        "status": "pass",
+        "message": "the wrist turns 65.4 deg between the lift pose and the suturing pose",
+        "detail": {
+          "rotation_deg": 65.43930056698431
+        }
+      },
+      {
+        "name": "path_radius",
+        "status": "pass",
+        "message": "every waypoint within 3.65 cm of the start (limit 8.0 cm)",
+        "detail": {
+          "radius_cm": 3.6496868613211566
+        }
+      },
+      {
+        "name": "hard_limits",
+        "status": "pass",
+        "message": "no operator limit box given (--limit-low/--limit-high). The only positional guard is the padded box around the waypoints.",
+        "detail": {}
+      },
+      {
+        "name": "step_budget_descend",
+        "status": "pass",
+        "message": "descend needs roughly 28 of 200 cycles at 0.50 mm per step",
+        "detail": {
+          "needed": 28.0
+        }
+      },
+      {
+        "name": "step_budget_approach",
+        "status": "pass",
+        "message": "approach needs roughly 25 of 200 cycles",
+        "detail": {
+          "estimated_steps": 25.24812931085768,
+          "budget": 200
+        }
+      },
+      {
+        "name": "step_budget_lift",
+        "status": "pass",
+        "message": "lift needs roughly 12 of 120 cycles",
+        "detail": {
+          "estimated_steps": 12.0,
+          "budget": 120
+        }
+      },
+      {
+        "name": "step_budget_transport",
+        "status": "pass",
+        "message": "transport needs roughly 26 of 600 cycles",
+        "detail": {
+          "estimated_steps": 26.175720226793725,
+          "budget": 600
+        }
+      },
+      {
+        "name": "step_budget_place",
+        "status": "pass",
+        "message": "place needs roughly 12 of 400 cycles",
+        "detail": {
+          "estimated_steps": 12.0,
+          "budget": 400
+        }
+      },
+      {
+        "name": "lift_tolerance",
+        "status": "pass",
+        "message": "success tolerance 0.20 cm is well inside the 1.50 cm lift",
+        "detail": {}
+      },
+      {
+        "name": "grasp_gate",
+        "status": "warn",
+        "message": "the lift will be released by jaw evidence alone. That evidence says the jaw stopped early, which is NOT a confirmed grasp on this hardware. Baseline source: synthetic (offline mock, not a real arm)",
+        "detail": {
+          "baseline": {
+            "empty_close_rad": -0.2617993877991494,
+            "empty_close_effort": 0.02,
+            "empty_close_rad_noise": 0.0017453292519943296,
+            "empty_close_effort_noise": 0.005,
+            "source": "synthetic (offline mock, not a real arm)"
+          }
+        }
+      },
+      {
+        "name": "jaw_baseline",
+        "status": "pass",
+        "message": "empty-jaw baseline loaded (synthetic (offline mock, not a real arm))",
+        "detail": {
+          "baseline": {
+            "empty_close_rad": -0.2617993877991494,
+            "empty_close_effort": 0.02,
+            "empty_close_rad_noise": 0.0017453292519943296,
+            "empty_close_effort_noise": 0.005,
+            "source": "synthetic (offline mock, not a real arm)"
+          }
+        }
+      },
+      {
+        "name": "r6_training_support",
+        "status": "pass",
+        "message": "controller 'd2' is geometric, so the R6 trained region does not bound it (for reference, the RL support check would flag: tool-x -1.42 cm outside [-1.35, +3.21]; tool-y -0.61 cm outside [+0.95, +3.95]; start->goal rotation 0.0 deg outside [25.7, 100.2])",
+        "detail": {
+          "offenders": [
+            "tool-x -1.42 cm outside [-1.35, +3.21]",
+            "tool-y -0.61 cm outside [+0.95, +3.95]",
+            "start->goal rotation 0.0 deg outside [25.7, 100.2]"
+          ],
+          "start_offset_tool_cm": [
+            -1.4150479640739166,
+            -0.6128219769233416,
+            2.753638776328154
+          ],
+          "applies": false
+        }
+      },
+      {
+        "name": "jaw_calibration",
+        "status": "pass",
+        "message": "jaw: open 60.0 deg, approach 40.0 deg, closed 0.0 deg, grip -15.0 deg (negative = squeeze)",
+        "detail": {
+          "open_deg": 59.99999999999999,
+          "closed_deg": 0.0,
+          "grip_deg": -14.999999999999998,
+          "approach_open_deg": 40.0
+        }
+      }
+    ]
+  },
+  "plan": {
+    "start_cm": [
+      -5.63986061683188,
+      3.366166453830251,
+      2.445599407487836
+    ],
+    "grasp_cm": [
+      -5.0726357,
+      1.5332369000000001,
+      4.9514053
+    ],
+    "lifted_cm": [
+      -5.0726357,
+      1.5332369000000001,
+      3.4514053000000002
+    ],
+    "start_quat_xyzw": [
+      0.23319925218484056,
+      0.4267863636861243,
+      -0.23588767438897446,
+      0.8413254504788069
+    ],
+    "grasp_quat_xyzw": [
+      0.23319925218484056,
+      0.4267863636861243,
+      -0.23588767438897446,
+      0.8413254504788069
+    ],
+    "approach_travel_cm": 3.15601616385721,
+    "approach_rotation_deg": 0.0,
+    "lift_travel_cm": 1.5,
+    "hover_cm": [
+      -5.498316060587034,
+      1.9488550521612105,
+      4.582545188027192
+    ],
+    "grasp_standoff_cm": 0.7000000000000001,
+    "suture_cm": [
+      -4.0,
+      0.5,
+      4.0
+    ],
+    "suture_quat_xyzw": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "transport_travel_cm": 3.267285455523298,
+    "transport_rotation_deg": 65.43930056698431,
+    "transport": "via a point the lift distance above the suturing pose, then straight down",
+    "via_cm": [
+      -4.0,
+      0.5,
+      2.5
+    ],
+    "lift": {
+      "axis": "z",
+      "sign": -1,
+      "distance_cm": 1.5,
+      "frame": "robot",
+      "operator_confirmed_sign": true,
+      "direction_robot_frame": [
+        0.0,
+        0.0,
+        -1.0
+      ]
+    },
+    "jaw": {
+      "open_deg": 59.99999999999999,
+      "closed_deg": 0.0,
+      "grip_deg": -14.999999999999998,
+      "approach_open_deg": 40.0
+    }
+  },
+  "controller": "D2 SE(3) goal servo (staged=True)",
+  "approach_report": {
+    "contract": null,
+    "frame_mode": "rebase",
+    "start_offset_tool_cm": [
+      -1.4099481903760376,
+      -0.6310201235831271,
+      2.0557098035902057
+    ],
+    "start_offset_policy_frame_cm": [
+      1.3275589194815207,
+      -2.1970100100755747,
+      -0.15105437240008623
+    ],
+    "start_to_goal_rotation_deg": 1.2200462232759394e-14,
+    "translation_cm": 2.5713971090612207,
+    "out_of_distribution": [
+      "tool-x -1.41 cm outside [-1.35, +3.21]",
+      "tool-y -0.63 cm outside [+0.95, +3.95]",
+      "start->goal rotation 0.0 deg outside [25.7, 100.2]"
+    ],
+    "in_distribution": false
+  },
+  "shadow_log": [],
+  "summary": {
+    "phase": "done",
+    "reason": "success",
+    "steps": 166,
+    "suture_compensation": {
+      "i": 110,
+      "event": "suture_compensation",
+      "mode": "apply",
+      "shift_mm": 0.32122701478482163,
+      "turn_deg": 5.6118972262144696e-14,
+      "taught_grasp_cm": [
+        -5.0726357,
+        1.5332369000000001,
+        4.9514053
+      ],
+      "measured_grasp_cm": [
+        -5.09377321601572,
+        1.5567518785659717,
+        4.945737924063749
+      ],
+      "note": "the suturing pose was taught with one grasp; the jaws closed at another, so the needle sits differently in them. This corrects for that exactly, ASSUMING the needle itself did not move."
+    },
+    "reached_suture_pose": true,
+    "shadow": null,
+    "grasp_gate": "evidence",
+    "gate_decision": {
+      "gate": "evidence",
+      "action": "lift",
+      "reason": "the jaw stopped early on 10 consecutive cycles. This is consistent with something between the fingers; it is NOT a confirmed grasp.",
+      "evidence": {
+        "samples": 10,
+        "blocked_samples": 10,
+        "unknown_samples": 0,
+        "current_streak": 10,
+        "required_streak": 3,
+        "grasp_verified": false,
+        "last": {
+          "commanded_deg": -14.999999999999998,
+          "measured_deg": 2.0000000439800965,
+          "effort": 1.206823891356144,
+          "residual_deg": 17.000000043980094,
+          "residual_excess_deg": 17.000000043980094,
+          "effort_excess": 1.186823891356144,
+          "jaw_blocked": true,
+          "grasp_verified": false,
+          "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+        }
+      }
+    },
+    "jaw_evidence": {
+      "samples": 83,
+      "blocked_samples": 83,
+      "unknown_samples": 0,
+      "current_streak": 83,
+      "required_streak": 3,
+      "grasp_verified": false,
+      "last": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      }
+    },
+    "grasp_verified": false,
+    "grasp_verification_note": "This deployment has no grasp sensor. Success here means the commanded sequence completed, not that a needle was picked up.",
+    "events": [
+      {
+        "i": 13,
+        "from": "approach",
+        "to": "descend",
+        "note": "closing the standoff onto the needle"
+      },
+      {
+        "i": 13,
+        "event": "descend_begin",
+        "standoff_mm": 7.0,
+        "step_mm": 0.5
+      },
+      {
+        "i": 46,
+        "from": "descend",
+        "to": "settle",
+        "note": "jaws are at the needle"
+      },
+      {
+        "i": 46,
+        "event": "standoff_closed",
+        "trans_err_cm": 0.04285125734401284,
+        "rot_err_deg": 4.7971431683085517e-14
+      },
+      {
+        "i": 60,
+        "from": "settle",
+        "to": "close",
+        "note": "arm stationary at the grasp pose"
+      },
+      {
+        "i": 60,
+        "event": "settled",
+        "trans_err_cm": 0.03212270147848236,
+        "rot_err_deg": 4.7971431683085517e-14,
+        "drift_mm": 0.2592118131706452
+      },
+      {
+        "i": 83,
+        "from": "close",
+        "to": "observe",
+        "note": "jaw held at the squeeze angle"
+      },
+      {
+        "i": 83,
+        "event": "jaw_at_grip_command",
+        "grip_deg": -14.999999999999998
+      },
+      {
+        "i": 93,
+        "from": "observe",
+        "to": "lift",
+        "note": "the jaw stopped early on 10 consecutive cycles. This is consistent with something between the fingers; it is NOT a confirmed grasp."
+      },
+      {
+        "i": 93,
+        "event": "grasp_gate",
+        "gate": "evidence",
+        "action": "lift",
+        "reason": "the jaw stopped early on 10 consecutive cycles. This is consistent with something between the fingers; it is NOT a confirmed grasp.",
+        "evidence": {
+          "samples": 10,
+          "blocked_samples": 10,
+          "unknown_samples": 0,
+          "current_streak": 10,
+          "required_streak": 3,
+          "grasp_verified": false,
+          "last": {
+            "commanded_deg": -14.999999999999998,
+            "measured_deg": 2.0000000439800965,
+            "effort": 1.206823891356144,
+            "residual_deg": 17.000000043980094,
+            "residual_excess_deg": 17.000000043980094,
+            "effort_excess": 1.186823891356144,
+            "jaw_blocked": true,
+            "grasp_verified": false,
+            "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+          }
+        }
+      },
+      {
+        "i": 110,
+        "from": "lift",
+        "to": "transport",
+        "note": "carrying the needle to the suturing point"
+      },
+      {
+        "i": 110,
+        "event": "lift_reached",
+        "height_cm": 1.3017668623897367
+      },
+      {
+        "i": 110,
+        "event": "suture_compensation",
+        "mode": "apply",
+        "shift_mm": 0.32122701478482163,
+        "turn_deg": 5.6118972262144696e-14,
+        "taught_grasp_cm": [
+          -5.0726357,
+          1.5332369000000001,
+          4.9514053
+        ],
+        "measured_grasp_cm": [
+          -5.09377321601572,
+          1.5567518785659717,
+          4.945737924063749
+        ],
+        "note": "the suturing pose was taught with one grasp; the jaws closed at another, so the needle sits differently in them. This corrects for that exactly, ASSUMING the needle itself did not move."
+      },
+      {
+        "i": 110,
+        "event": "transport_begin",
+        "target": "via",
+        "travel_cm": 1.8752173010356663,
+        "rotation_deg": 65.43930056698431
+      },
+      {
+        "i": 139,
+        "from": "transport",
+        "to": "place",
+        "note": "above the suturing point, descending"
+      },
+      {
+        "i": 139,
+        "event": "transport_reached",
+        "trans_err_cm": 0.27089796781730135,
+        "rot_err_deg": 1.098043275614728
+      },
+      {
+        "i": 156,
+        "from": "place",
+        "to": "hold",
+        "note": "suturing pose reached"
+      },
+      {
+        "i": 156,
+        "event": "suture_pose_reached",
+        "trans_err_cm": 0.18882583052412344,
+        "rot_err_deg": 0.0007190449305822719,
+        "note": "the tool is at the commanded pose. Where the NEEDLE is depends on how it sits in the jaws, which this deployment never measured."
+      },
+      {
+        "i": 166,
+        "from": "hold",
+        "to": "done",
+        "note": "success"
+      }
+    ]
+  },
+  "final_height_cm": 1.7838752995404075,
+  "trace": [
+    {
+      "i": 1,
+      "phase": "approach",
+      "phase_step": 1,
+      "measured_cm": [
+        -5.665923761463968,
+        3.384273571163713,
+        2.4545268989351166
+      ],
+      "command_cm": [
+        -5.5317250326495895,
+        3.2828296442626566,
+        2.551202275507554
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 2.57234921906007,
+      "rot_err_deg": 1.1506315288333161e-14,
+      "action": [
+        1.0,
+        -1.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 2,
+      "phase": "approach",
+      "phase_step": 2,
+      "measured_cm": [
+        -5.542464097356795,
+        3.2944520063465834,
+        2.5584937234312757
+      ],
+      "command_cm": [
+        -5.475984136495603,
+        3.2115293804451257,
+        2.6682172371645425
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 2.430918456797029,
+      "rot_err_deg": 5.645513088941087e-15,
+      "action": [
+        1.0,
+        -1.0,
+        -0.434,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 3,
+      "phase": "approach",
+      "phase_step": 3,
+      "measured_cm": [
+        -5.470101486562492,
+        3.212097825271442,
+        2.6791514968967913
+      ],
+      "command_cm": [
+        -5.449883742102518,
+        3.1587818211194767,
+        2.796976071194707
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 2.284619423325825,
+      "rot_err_deg": 5.406115254449181e-15,
+      "action": [
+        1.0,
+        -1.0,
+        -0.0651,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 4,
+      "phase": "approach",
+      "phase_step": 4,
+      "measured_cm": [
+        -5.464612823842552,
+        3.155523622159616,
+        2.7873336849411072
+      ],
+      "command_cm": [
+        -5.428229586174796,
+        3.108817269619192,
+        2.927496550742856
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 2.163323666676267,
+      "rot_err_deg": 6.870335502057566e-15,
+      "action": [
+        1.0,
+        -1.0,
+        -0.0098,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 5,
+      "phase": "approach",
+      "phase_step": 5,
+      "measured_cm": [
+        -5.416252661922103,
+        3.109611711768825,
+        2.921647415723554
+      ],
+      "command_cm": [
+        -5.407241779794969,
+        3.059269802362288,
+        3.0582810448515367
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 2.0279723455380383,
+      "rot_err_deg": 7.152754087956332e-15,
+      "action": [
+        1.0,
+        -1.0,
+        -0.0015,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 6,
+      "phase": "approach",
+      "phase_step": 6,
+      "measured_cm": [
+        -5.422879949042106,
+        3.054125957549911,
+        3.058443888461903
+      ],
+      "command_cm": [
+        -5.386353632722105,
+        3.00978471426775,
+        3.189105025005064
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 1.884197217002609,
+      "rot_err_deg": 6.7690667767453744e-15,
+      "action": [
+        1.0,
+        -1.0,
+        -0.0002,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 7,
+      "phase": "approach",
+      "phase_step": 7,
+      "measured_cm": [
+        -5.391865690828092,
+        3.035665990555714,
+        3.2092395113111793
+      ],
+      "command_cm": [
+        -5.365481769850039,
+        2.960309818846998,
+        3.3199354571268285
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 1.7545535553912799,
+      "rot_err_deg": 6.980935308450668e-15,
+      "action": [
+        1.0,
+        -1.0,
+        -0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 8,
+      "phase": "approach",
+      "phase_step": 8,
+      "measured_cm": [
+        -5.419705019429358,
+        2.922529553927644,
+        3.316440015285725
+      ],
+      "command_cm": [
+        -5.344611209713972,
+        2.9108357388401083,
+        3.450766405406025
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 1.5991385304671715,
+      "rot_err_deg": 6.980935308450668e-15,
+      "action": [
+        1.0,
+        -1.0,
+        -0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 9,
+      "phase": "approach",
+      "phase_step": 9,
+      "measured_cm": [
+        -5.353055017945499,
+        2.9151085987900807,
+        3.4551128440264764
+      ],
+      "command_cm": [
+        -5.3237413009459775,
+        2.8613620665401953,
+        3.5815976117639674
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 1.4919284088658957,
+      "rot_err_deg": 6.980935308450668e-15,
+      "action": [
+        1.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 10,
+      "phase": "approach",
+      "phase_step": 10,
+      "measured_cm": [
+        -5.281384525844956,
+        2.8391216512863497,
+        3.574045511621428
+      ],
+      "command_cm": [
+        -5.302871392177984,
+        2.811888394240283,
+        3.71242881812191
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 1.3626098141412035,
+      "rot_err_deg": 6.980935308450668e-15,
+      "action": [
+        1.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 11,
+      "phase": "approach",
+      "phase_step": 11,
+      "measured_cm": [
+        -5.262015960028137,
+        2.8248224541643197,
+        3.7256900855694353
+      ],
+      "command_cm": [
+        -5.2820014834099895,
+        2.7624147219403703,
+        3.8432600244798527
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 1.2479412219748627,
+      "rot_err_deg": 6.980935308450668e-15,
+      "action": [
+        1.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 12,
+      "phase": "approach",
+      "phase_step": 12,
+      "measured_cm": [
+        -5.292281610843739,
+        2.7294532185232576,
+        3.8466093193643074
+      ],
+      "command_cm": [
+        -5.261131574641996,
+        2.712941049640458,
+        3.9740912308377965
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 1.092421756737482,
+      "rot_err_deg": 6.980935308450668e-15,
+      "action": [
+        1.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 13,
+      "phase": "approach",
+      "phase_step": 0,
+      "measured_cm": [
+        -5.258951292885565,
+        2.688394008555566,
+        3.9604266976021854
+      ],
+      "command_cm": [
+        -5.2402616658740016,
+        2.663467377340545,
+        4.104922437195739
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 0.9956127641660284,
+      "rot_err_deg": 6.980935308450668e-15,
+      "action": [
+        1.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [],
+      "events": [
+        {
+          "i": 13,
+          "event": "descend_begin",
+          "standoff_mm": 7.0,
+          "step_mm": 0.5
+        },
+        {
+          "i": 13,
+          "from": "approach",
+          "to": "descend",
+          "note": "closing the standoff onto the needle"
+        }
+      ],
+      "reason": "running"
+    },
+    {
+      "i": 14,
+      "phase": "descend",
+      "phase_step": 1,
+      "measured_cm": [
+        -5.241702539468546,
+        2.6445723448793292,
+        4.102957037838695
+      ],
+      "command_cm": [
+        -5.212835026009065,
+        2.6157048314198477,
+        4.131824551298176
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 1.4083730048597065,
+      "rot_err_deg": 6.980935308450668e-15,
+      "action": [
+        1.0,
+        -1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [
+        {
+          "kind": "step_translation",
+          "proposed_mm": 1.7320508898368763,
+          "applied_mm": 0.5
+        }
+      ],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 15,
+      "phase": "descend",
+      "phase_step": 2,
+      "measured_cm": [
+        -5.210925365459676,
+        2.6164165561609574,
+        4.121698718131889
+      ],
+      "command_cm": [
+        -5.182556812248971,
+        2.586205453150384,
+        4.158526919230872
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 1.3714281647571567,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        1.0,
+        -1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [
+        {
+          "kind": "step_translation",
+          "proposed_mm": 1.682887671422779,
+          "applied_mm": 0.5
+        }
+      ],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 16,
+      "phase": "descend",
+      "phase_step": 3,
+      "measured_cm": [
+        -5.170681850813255,
+        2.6040287922360306,
+        4.164943885322203
+      ],
+      "command_cm": [
+        -5.153660703187977,
+        2.5612659684056083,
+        4.190823002302976
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 1.3321898817153341,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.8334,
+        -1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [
+        {
+          "kind": "step_translation",
+          "proposed_mm": 1.6475213202091734,
+          "applied_mm": 0.5
+        }
+      ],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 17,
+      "phase": "descend",
+      "phase_step": 4,
+      "measured_cm": [
+        -5.170025307735783,
+        2.5758990140813167,
+        4.180794201933635
+      ],
+      "command_cm": [
+        -5.130056707210326,
+        2.5309271638940802,
+        4.2227981225482285
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 1.3001809429069862,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.8278,
+        -1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [
+        {
+          "kind": "step_translation",
+          "proposed_mm": 1.4068939176822135,
+          "applied_mm": 0.5
+        }
+      ],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 18,
+      "phase": "descend",
+      "phase_step": 5,
+      "measured_cm": [
+        -5.112473494844565,
+        2.5094914155565315,
+        4.241087466610804
+      ],
+      "command_cm": [
+        -5.115537234752787,
+        2.4966542452200535,
+        4.256183028795188
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 1.2079782090225462,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.3386,
+        -1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [
+        {
+          "kind": "step_translation",
+          "proposed_mm": 1.7715992361531994,
+          "applied_mm": 0.5
+        }
+      ],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 19,
+      "phase": "descend",
+      "phase_step": 6,
+      "measured_cm": [
+        -5.115938503845096,
+        2.471679267413365,
+        4.249905039355851
+      ],
+      "command_cm": [
+        -5.104188600819612,
+        2.4576968204288403,
+        4.285398222812818
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 1.1724554684341142,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.3681,
+        -1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [
+        {
+          "kind": "step_translation",
+          "proposed_mm": 1.6039944019172125,
+          "applied_mm": 0.5
+        }
+      ],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 20,
+      "phase": "descend",
+      "phase_step": 7,
+      "measured_cm": [
+        -5.103106555244181,
+        2.4631526472121292,
+        4.265754460313999
+      ],
+      "command_cm": [
+        -5.093563938078017,
+        2.4204686668460993,
+        4.317039669088979
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 1.1557633165551344,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.259,
+        -1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [
+        {
+          "kind": "step_translation",
+          "proposed_mm": 1.2697940787786781,
+          "applied_mm": 0.5
+        }
+      ],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 21,
+      "phase": "descend",
+      "phase_step": 8,
+      "measured_cm": [
+        -5.11571139902132,
+        2.424460357503041,
+        4.307704676751383
+      ],
+      "command_cm": [
+        -5.088118840770589,
+        2.384332418793033,
+        4.351164769703629
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 1.1002205503536588,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.3661,
+        -1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [
+        {
+          "kind": "step_translation",
+          "proposed_mm": 1.3284211735514846,
+          "applied_mm": 0.5
+        }
+      ],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 22,
+      "phase": "descend",
+      "phase_step": 9,
+      "measured_cm": [
+        -5.083408728535985,
+        2.3995228092426006,
+        4.318189022376609
+      ],
+      "command_cm": [
+        -5.0817568583049475,
+        2.3454227243612253,
+        4.3819147430097996
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 1.0730937465773152,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.0916,
+        -1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [
+        {
+          "kind": "step_translation",
+          "proposed_mm": 1.0898262700162429,
+          "applied_mm": 0.5
+        }
+      ],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 23,
+      "phase": "descend",
+      "phase_step": 10,
+      "measured_cm": [
+        -5.076669095974595,
+        2.36991566371194,
+        4.37596420612239
+      ],
+      "command_cm": [
+        -5.0782350995874275,
+        2.314198145781355,
+        4.420807196108634
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 1.015470371036343,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.0343,
+        -1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [
+        {
+          "kind": "step_translation",
+          "proposed_mm": 1.2090966288926732,
+          "applied_mm": 0.5
+        }
+      ],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 24,
+      "phase": "descend",
+      "phase_step": 11,
+      "measured_cm": [
+        -5.094451391252179,
+        2.329243022324947,
+        4.425876126432797
+      ],
+      "command_cm": [
+        -5.079329075246145,
+        2.2846703927887764,
+        4.461142230761742
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 0.954087303884627,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.1418,
+        -0.7,
+        0.7,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [
+        {
+          "kind": "step_translation",
+          "proposed_mm": 0.9305673479954258,
+          "applied_mm": 0.5
+        }
+      ],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 25,
+      "phase": "descend",
+      "phase_step": 12,
+      "measured_cm": [
+        -5.0614114138305935,
+        2.2777660785877507,
+        4.431505865287297
+      ],
+      "command_cm": [
+        -5.073259454637491,
+        2.240725274336887,
+        4.484207058311854
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 0.9081547800805495,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.073,
+        -0.7,
+        0.7,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [
+        {
+          "kind": "step_translation",
+          "proposed_mm": 0.875004085128911,
+          "applied_mm": 0.5
+        }
+      ],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 26,
+      "phase": "descend",
+      "phase_step": 13,
+      "measured_cm": [
+        -5.075459669931717,
+        2.2318087112766625,
+        4.499713534752805
+      ],
+      "command_cm": [
+        -5.07341617964544,
+        2.2068143342168853,
+        4.52094972530065
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 0.8318870122250129,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.0184,
+        -0.7,
+        0.7,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [
+        {
+          "kind": "step_translation",
+          "proposed_mm": 1.1635856292053381,
+          "applied_mm": 0.5
+        }
+      ],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 27,
+      "phase": "descend",
+      "phase_step": 14,
+      "measured_cm": [
+        -5.069543522677898,
+        2.1741973495681832,
+        4.497046463698586
+      ],
+      "command_cm": [
+        -5.072588404319739,
+        2.1612110631615096,
+        4.541435243528414
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 0.785672840052661,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.0201,
+        -0.7,
+        0.7,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [
+        {
+          "kind": "step_translation",
+          "proposed_mm": 1.1251055506174432,
+          "applied_mm": 0.5
+        }
+      ],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 28,
+      "phase": "descend",
+      "phase_step": 15,
+      "measured_cm": [
+        -5.054912623587994,
+        2.1748063635098664,
+        4.528630376210244
+      ],
+      "command_cm": [
+        -5.0687680100883625,
+        2.1262052126700888,
+        4.576931652069127
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 0.7685467585848484,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.1152,
+        -0.7,
+        0.7,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [
+        {
+          "kind": "step_translation",
+          "proposed_mm": 0.8056467846452603,
+          "applied_mm": 0.5
+        }
+      ],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 29,
+      "phase": "descend",
+      "phase_step": 16,
+      "measured_cm": [
+        -5.068788986019708,
+        2.135116683745612,
+        4.586299738786072
+      ],
+      "command_cm": [
+        -5.070026303238149,
+        2.0957179949308875,
+        4.616541578260319
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 0.7039716912770349,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.025,
+        -0.7,
+        0.7,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [
+        {
+          "kind": "step_translation",
+          "proposed_mm": 1.0018712035282886,
+          "applied_mm": 0.5
+        }
+      ],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 30,
+      "phase": "descend",
+      "phase_step": 17,
+      "measured_cm": [
+        -5.052501459315862,
+        2.1008477074753187,
+        4.614645011480949
+      ],
+      "command_cm": [
+        -5.06766994328973,
+        2.0612708006252682,
+        4.652705626322786
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 0.6602991052047129,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.1309,
+        -0.7,
+        0.7,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [
+        {
+          "kind": "step_translation",
+          "proposed_mm": 0.941590322462277,
+          "applied_mm": 0.5
+        }
+      ],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 31,
+      "phase": "descend",
+      "phase_step": 18,
+      "measured_cm": [
+        -5.072846904585488,
+        2.082385656635933,
+        4.607688540821215
+      ],
+      "command_cm": [
+        -5.0722406566826095,
+        2.016934443090632,
+        4.6753638694065085
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 0.6478469048027746,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.0014,
+        -0.7,
+        0.7,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [
+        {
+          "kind": "step_translation",
+          "proposed_mm": 0.5512986275865561,
+          "applied_mm": 0.5
+        }
+      ],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 32,
+      "phase": "descend",
+      "phase_step": 19,
+      "measured_cm": [
+        -5.075013763184436,
+        2.017594445170313,
+        4.646856890189104
+      ],
+      "command_cm": [
+        -5.073000046054428,
+        1.974034480375136,
+        4.701035186606664
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 0.5721517461882525,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.0155,
+        -0.7,
+        0.7,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [
+        {
+          "kind": "step_translation",
+          "proposed_mm": 0.8081592111500996,
+          "applied_mm": 0.5
+        }
+      ],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 33,
+      "phase": "descend",
+      "phase_step": 20,
+      "measured_cm": [
+        -5.066343773791667,
+        1.9610088601262683,
+        4.718284082532979
+      ],
+      "command_cm": [
+        -5.071934788760267,
+        1.939574474594826,
+        4.73724807420926
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 0.4872103654880372,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.0409,
+        -0.7,
+        0.7,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [
+        {
+          "kind": "step_translation",
+          "proposed_mm": 1.2046664024217326,
+          "applied_mm": 0.5
+        }
+      ],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 34,
+      "phase": "descend",
+      "phase_step": 21,
+      "measured_cm": [
+        -5.074446630440954,
+        1.9529575394106151,
+        4.7616249463126845
+      ],
+      "command_cm": [
+        -5.072541101679346,
+        1.9138546471138687,
+        4.780121409267242
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 0.4606357316383522,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.0118,
+        -0.7,
+        0.7,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [
+        {
+          "kind": "step_translation",
+          "proposed_mm": 1.1006476882253138,
+          "applied_mm": 0.5
+        }
+      ],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 35,
+      "phase": "descend",
+      "phase_step": 22,
+      "measured_cm": [
+        -5.064882510025077,
+        1.8963402242454117,
+        4.74983503663315
+      ],
+      "command_cm": [
+        -5.071179070692618,
+        1.8683403606190998,
+        4.800775575831481
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 0.41537297349085844,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.0504,
+        -0.7,
+        0.7,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [
+        {
+          "kind": "step_translation",
+          "proposed_mm": 0.9613951106455786,
+          "applied_mm": 0.5
+        }
+      ],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 36,
+      "phase": "descend",
+      "phase_step": 23,
+      "measured_cm": [
+        -5.03611138834229,
+        1.8661145167553492,
+        4.787004276878794
+      ],
+      "command_cm": [
+        -5.065038563106645,
+        1.8291854524244002,
+        4.8312581500477645
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 0.3730539230219807,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.2374,
+        -0.7,
+        0.7,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [
+        {
+          "kind": "step_translation",
+          "proposed_mm": 0.9223089687419636,
+          "applied_mm": 0.5
+        }
+      ],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 37,
+      "phase": "descend",
+      "phase_step": 24,
+      "measured_cm": [
+        -5.062153421345428,
+        1.8253572258147472,
+        4.848300995332018
+      ],
+      "command_cm": [
+        -5.066793120388158,
+        1.7962109217048015,
+        4.868802814816119
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 0.3099591272425676,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.0681,
+        -0.7,
+        0.6702,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [
+        {
+          "kind": "step_translation",
+          "proposed_mm": 1.1194735320145344,
+          "applied_mm": 0.5
+        }
+      ],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 38,
+      "phase": "descend",
+      "phase_step": 25,
+      "measured_cm": [
+        -5.066114556739416,
+        1.7964859133771698,
+        4.85451122039546
+      ],
+      "command_cm": [
+        -5.06937516938208,
+        1.7564859108812252,
+        4.894511222891404
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 0.2805905041441877,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.0326,
+        -0.4,
+        0.4,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 39,
+      "phase": "descend",
+      "phase_step": 26,
+      "measured_cm": [
+        -5.0599838074071295,
+        1.7358085764341256,
+        4.907829011686683
+      ],
+      "command_cm": [
+        -5.067190842036385,
+        1.7132487800544054,
+        4.919526802675037
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 0.20759153976662661,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.0633,
+        -0.4,
+        0.2179,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [
+        {
+          "kind": "step_translation",
+          "proposed_mm": 0.701680890738085,
+          "applied_mm": 0.5
+        }
+      ],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 40,
+      "phase": "descend",
+      "phase_step": 27,
+      "measured_cm": [
+        -5.036712091776582,
+        1.6827550592924223,
+        4.87020221804801
+      ],
+      "command_cm": [
+        -5.05852267566623,
+        1.6644311070176756,
+        4.9130694277394875
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 0.17389688353873803,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.1796,
+        -0.4,
+        0.4,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [
+        {
+          "kind": "step_translation",
+          "proposed_mm": 0.722010276943033,
+          "applied_mm": 0.5
+        }
+      ],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 41,
+      "phase": "descend",
+      "phase_step": 28,
+      "measured_cm": [
+        -5.046185100563143,
+        1.7153890633273379,
+        4.893050930762049
+      ],
+      "command_cm": [
+        -5.059410418192655,
+        1.6753890608313935,
+        4.922227882602592
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 0.1930913701452173,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.1323,
+        -0.4,
+        0.2918,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 42,
+      "phase": "descend",
+      "phase_step": 29,
+      "measured_cm": [
+        -5.084424333368695,
+        1.687168439507003,
+        4.905413450801426
+      ],
+      "command_cm": [
+        -5.0785299109301265,
+        1.6471684370110584,
+        4.928409160776472
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 0.16108737046833282,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.0589,
+        -0.4,
+        0.23,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 43,
+      "phase": "descend",
+      "phase_step": 30,
+      "measured_cm": [
+        -5.088650420608861,
+        1.640206087677383,
+        4.939049202502308
+      ],
+      "command_cm": [
+        -5.080643132994467,
+        1.6002060851814386,
+        4.945227104644894
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 0.10886483148341128,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.0801,
+        -0.4,
+        0.0618,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 44,
+      "phase": "descend",
+      "phase_step": 31,
+      "measured_cm": [
+        -5.08874918022233,
+        1.6057637419830417,
+        4.941696439467022
+      ],
+      "command_cm": [
+        -5.08310953188949,
+        1.5857637407350695,
+        4.945094548110784
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 0.07492695793742957,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.0564,
+        -0.2,
+        0.034,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 45,
+      "phase": "descend",
+      "phase_step": 32,
+      "measured_cm": [
+        -5.100002953962522,
+        1.579367215580205,
+        4.926086554807426
+      ],
+      "command_cm": [
+        -5.0904244639953635,
+        1.5632216114545843,
+        4.9349480723894565
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 0.059312827138022925,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.0958,
+        -0.1615,
+        0.0886,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 46,
+      "phase": "descend",
+      "phase_step": 0,
+      "measured_cm": [
+        -5.090294164277968,
+        1.5407442869032717,
+        4.9130901850035515
+      ],
+      "command_cm": [
+        -5.084113782582043,
+        1.5381166817649177,
+        4.926500372408079
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 0.04285125734401284,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.0618,
+        -0.0263,
+        0.1341,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [],
+      "events": [
+        {
+          "i": 46,
+          "event": "standoff_closed",
+          "trans_err_cm": 0.04285125734401284,
+          "rot_err_deg": 4.7971431683085517e-14
+        },
+        {
+          "i": 46,
+          "from": "descend",
+          "to": "settle",
+          "note": "jaws are at the needle"
+        }
+      ],
+      "reason": "running"
+    },
+    {
+      "i": 47,
+      "phase": "settle",
+      "phase_step": 1,
+      "measured_cm": [
+        -5.054974546275938,
+        1.537052997358811,
+        4.925422331898638
+      ],
+      "command_cm": [
+        -5.061155929329943,
+        1.5357173526665187,
+        4.934516331448193
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 0.03164796330371493,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.0618,
+        -0.0134,
+        0.0909,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 48,
+      "phase": "settle",
+      "phase_step": 2,
+      "measured_cm": [
+        -5.050925200931591,
+        1.527300212615541,
+        4.929945624098629
+      ],
+      "command_cm": [
+        -5.0585238398270524,
+        1.5293780304448379,
+        4.937456477269096
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 0.031098355530350466,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.076,
+        0.0208,
+        0.0751,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 49,
+      "phase": "settle",
+      "phase_step": 3,
+      "measured_cm": [
+        -5.050020865120414,
+        1.5350263472897259,
+        4.914270542730447
+      ],
+      "command_cm": [
+        -5.057935932424031,
+        1.5344000395806376,
+        4.92726750303405
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 0.043515779617308965,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.0792,
+        -0.0063,
+        0.13,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 50,
+      "phase": "settle",
+      "phase_step": 4,
+      "measured_cm": [
+        -5.041269080490638,
+        1.5225913407148568,
+        4.906145924027766
+      ],
+      "command_cm": [
+        -5.052247302160328,
+        1.5263172689599898,
+        4.921986572894838
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 0.05608568324746193,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.1098,
+        0.0373,
+        0.1584,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 51,
+      "phase": "settle",
+      "phase_step": 5,
+      "measured_cm": [
+        -5.0702568035603095,
+        1.5185063620728834,
+        4.954532577987298
+      ],
+      "command_cm": [
+        -5.071089432803653,
+        1.5236620206671587,
+        4.953437926806209
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 0.015245581769904275,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.0083,
+        0.0516,
+        -0.0109,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 52,
+      "phase": "settle",
+      "phase_step": 6,
+      "measured_cm": [
+        -5.094600150902069,
+        1.5268635385178455,
+        4.910681439644398
+      ],
+      "command_cm": [
+        -5.0869125580305194,
+        1.5290942303473232,
+        4.924934770552107
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 0.04670641971157991,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.0769,
+        0.0223,
+        0.1425,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 53,
+      "phase": "settle",
+      "phase_step": 7,
+      "measured_cm": [
+        -5.086943896693423,
+        1.5470855586968435,
+        4.920201504110878
+      ],
+      "command_cm": [
+        -5.081935938415916,
+        1.5422384852841562,
+        4.931122815263033
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 0.037016033258702286,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.0501,
+        -0.0485,
+        0.1092,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 54,
+      "phase": "settle",
+      "phase_step": 8,
+      "measured_cm": [
+        -5.094523036893584,
+        1.546868706565327,
+        4.945125850286046
+      ],
+      "command_cm": [
+        -5.086862480690188,
+        1.5420975694736903,
+        4.947323664191904
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 0.026538898907787985,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.0766,
+        -0.0477,
+        0.022,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 55,
+      "phase": "settle",
+      "phase_step": 9,
+      "measured_cm": [
+        -5.07358932926984,
+        1.581547046552286,
+        4.95150701363863
+      ],
+      "command_cm": [
+        -5.0732555432665265,
+        1.5646384910163735,
+        4.951471465429708
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 0.04831966488244658,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.0033,
+        -0.1691,
+        -0.0004,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 56,
+      "phase": "settle",
+      "phase_step": 10,
+      "measured_cm": [
+        -5.085103745261585,
+        1.5621189072166408,
+        4.950021494517311
+      ],
+      "command_cm": [
+        -5.080739994015409,
+        1.5520101981462338,
+        4.950505651148889
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 0.03148868703393229,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.0436,
+        -0.1011,
+        0.0048,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 57,
+      "phase": "settle",
+      "phase_step": 11,
+      "measured_cm": [
+        -5.078565246345847,
+        1.551409641881645,
+        4.953984969926814
+      ],
+      "command_cm": [
+        -5.076489931911749,
+        1.5450491822518417,
+        4.95308207872487
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 0.01928892854193155,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.0208,
+        -0.0636,
+        -0.009,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 58,
+      "phase": "settle",
+      "phase_step": 12,
+      "measured_cm": [
+        -5.109906933124051,
+        1.5616417613726425,
+        4.9415872933464495
+      ],
+      "command_cm": [
+        -5.096861907632619,
+        1.5517000287620402,
+        4.945023620490257
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 0.04787874500063215,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.1305,
+        -0.0994,
+        0.0344,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 59,
+      "phase": "settle",
+      "phase_step": 13,
+      "measured_cm": [
+        -5.12032508156156,
+        1.564455051954869,
+        4.971370140637979
+      ],
+      "command_cm": [
+        -5.103633779005708,
+        1.5535286922890614,
+        4.964382330171188
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 0.06039408072734652,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.1669,
+        -0.1093,
+        -0.0699,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 60,
+      "phase": "settle",
+      "phase_step": 0,
+      "measured_cm": [
+        -5.09377321601572,
+        1.5567518785659717,
+        4.945737924063749
+      ],
+      "command_cm": [
+        -5.086375182522242,
+        1.5485216338067413,
+        4.947721447340533
+      ],
+      "command_jaw_deg": 40.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 0.03212270147848236,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.074,
+        -0.0823,
+        0.0198,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": null,
+      "clamps": [],
+      "events": [
+        {
+          "i": 60,
+          "event": "settled",
+          "trans_err_cm": 0.03212270147848236,
+          "rot_err_deg": 4.7971431683085517e-14,
+          "drift_mm": 0.2592118131706452
+        },
+        {
+          "i": 60,
+          "from": "settle",
+          "to": "close",
+          "note": "arm stationary at the grasp pose"
+        }
+      ],
+      "reason": "running"
+    },
+    {
+      "i": 61,
+      "phase": "close",
+      "phase_step": 1,
+      "measured_cm": [
+        -5.028943835765972,
+        1.5661268062199716,
+        4.924935553933673
+      ],
+      "command_cm": [
+        -5.044236075681463,
+        1.5546153613727944,
+        4.934199951249805
+      ],
+      "command_jaw_deg": 37.0,
+      "measured_jaw_deg": 40.0,
+      "trans_err_cm": 0.060756665381002516,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.1529,
+        -0.1151,
+        0.0926,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": 40.0,
+        "measured_deg": 40.0,
+        "effort": 0.02,
+        "residual_deg": 0.0,
+        "residual_excess_deg": 55.0,
+        "effort_excess": 0.0,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +55.00 deg past the empty-jaw stop (margin 1.00 deg); effort +0.0000 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 62,
+      "phase": "close",
+      "phase_step": 2,
+      "measured_cm": [
+        -5.059828834006257,
+        1.5563549463442323,
+        4.903105328609885
+      ],
+      "command_cm": [
+        -5.0643112461848885,
+        1.5482635982953192,
+        4.920010254222759
+      ],
+      "command_jaw_deg": 34.0,
+      "measured_jaw_deg": 38.2,
+      "trans_err_cm": 0.05505767085195029,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.0448,
+        -0.0809,
+        0.169,
+        0.0,
+        0.0,
+        0.0,
+        0.6
+      ],
+      "jaw": {
+        "commanded_deg": 37.0,
+        "measured_deg": 38.2,
+        "effort": 0.02,
+        "residual_deg": 1.2000000000000017,
+        "residual_excess_deg": 53.199999999999996,
+        "effort_excess": 0.0,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +53.20 deg past the empty-jaw stop (margin 1.00 deg); effort +0.0000 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 63,
+      "phase": "close",
+      "phase_step": 3,
+      "measured_cm": [
+        -5.060938638044678,
+        1.5390821671810642,
+        4.944535666229083
+      ],
+      "command_cm": [
+        -5.065032523288351,
+        1.537036309363814,
+        4.946939926792391
+      ],
+      "command_jaw_deg": 31.000000000000007,
+      "measured_jaw_deg": 35.68,
+      "trans_err_cm": 0.01477092667882414,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.0409,
+        -0.0205,
+        0.024,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "jaw": {
+        "commanded_deg": 34.0,
+        "measured_deg": 35.68,
+        "effort": 0.02,
+        "residual_deg": 1.6799999999999973,
+        "residual_excess_deg": 50.68,
+        "effort_excess": 0.0,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +50.68 deg past the empty-jaw stop (margin 1.00 deg); effort +0.0000 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 64,
+      "phase": "close",
+      "phase_step": 4,
+      "measured_cm": [
+        -5.045789430015786,
+        1.4828106006151187,
+        4.947773978512937
+      ],
+      "command_cm": [
+        -5.05518550591941,
+        1.500459785620795,
+        4.9490448687160695
+      ],
+      "command_jaw_deg": 28.000000000000004,
+      "measured_jaw_deg": 32.87200000000001,
+      "trans_err_cm": 0.057242644745516484,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.094,
+        0.1765,
+        0.0127,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "jaw": {
+        "commanded_deg": 31.000000000000007,
+        "measured_deg": 32.87200000000001,
+        "effort": 0.02,
+        "residual_deg": 1.8719999999999992,
+        "residual_excess_deg": 47.872,
+        "effort_excess": 0.0,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +47.87 deg past the empty-jaw stop (margin 1.00 deg); effort +0.0000 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 65,
+      "phase": "close",
+      "phase_step": 5,
+      "measured_cm": [
+        -5.087534855909884,
+        1.5226525456057654,
+        4.952406986098626
+      ],
+      "command_cm": [
+        -5.0823201171889005,
+        1.526357069821943,
+        4.95205634390097
+      ],
+      "command_jaw_deg": 25.000000000000004,
+      "measured_jaw_deg": 29.94880000000001,
+      "trans_err_cm": 0.018303463601459614,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.0521,
+        0.037,
+        -0.0035,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "jaw": {
+        "commanded_deg": 28.000000000000004,
+        "measured_deg": 29.94880000000001,
+        "effort": 0.02,
+        "residual_deg": 1.9488000000000034,
+        "residual_excess_deg": 44.948800000000006,
+        "effort_excess": 0.0,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +44.95 deg past the empty-jaw stop (margin 1.00 deg); effort +0.0000 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 66,
+      "phase": "close",
+      "phase_step": 6,
+      "measured_cm": [
+        -5.071352008145161,
+        1.505054575245877,
+        4.988624948660879
+      ],
+      "command_cm": [
+        -5.071801284136959,
+        1.5149184105425224,
+        4.975597947614884
+      ],
+      "command_jaw_deg": 22.000000000000004,
+      "measured_jaw_deg": 26.979520000000004,
+      "trans_err_cm": 0.046703249777336975,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.0045,
+        0.0986,
+        -0.1303,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "jaw": {
+        "commanded_deg": 25.000000000000004,
+        "measured_deg": 26.979520000000004,
+        "effort": 0.02,
+        "residual_deg": 1.9795200000000017,
+        "residual_excess_deg": 41.97952000000001,
+        "effort_excess": 0.0,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +41.98 deg past the empty-jaw stop (margin 1.00 deg); effort +0.0000 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 67,
+      "phase": "close",
+      "phase_step": 7,
+      "measured_cm": [
+        -5.03139981679395,
+        1.4936229896899982,
+        4.98305425005221
+      ],
+      "command_cm": [
+        -5.045832390797942,
+        1.5074878353860033,
+        4.971977060825634
+      ],
+      "command_jaw_deg": 19.0,
+      "measured_jaw_deg": 23.991808000000006,
+      "trans_err_cm": 0.06535530577725981,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.1443,
+        0.1386,
+        -0.1108,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "jaw": {
+        "commanded_deg": 22.000000000000004,
+        "measured_deg": 23.991808000000006,
+        "effort": 0.02,
+        "residual_deg": 1.9918080000000025,
+        "residual_excess_deg": 38.991808000000006,
+        "effort_excess": 0.0,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +38.99 deg past the empty-jaw stop (margin 1.00 deg); effort +0.0000 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 68,
+      "phase": "close",
+      "phase_step": 8,
+      "measured_cm": [
+        -5.059298439365746,
+        1.5070164366487888,
+        4.946664321241143
+      ],
+      "command_cm": [
+        -5.063966436575164,
+        1.5161935906422193,
+        4.948323571579353
+      ],
+      "command_jaw_deg": 16.0,
+      "measured_jaw_deg": 20.9967232,
+      "trans_err_cm": 0.029797182738812433,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.0467,
+        0.0918,
+        0.0166,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "jaw": {
+        "commanded_deg": 19.0,
+        "measured_deg": 20.9967232,
+        "effort": 0.02,
+        "residual_deg": 1.996723200000002,
+        "residual_excess_deg": 35.996723200000005,
+        "effort_excess": 0.0,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +36.00 deg past the empty-jaw stop (margin 1.00 deg); effort +0.0000 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 69,
+      "phase": "close",
+      "phase_step": 9,
+      "measured_cm": [
+        -5.026623526283552,
+        1.4968100004205658,
+        4.942401895279403
+      ],
+      "command_cm": [
+        -5.042727699218621,
+        1.5095594166621933,
+        4.945553002263484
+      ],
+      "command_jaw_deg": 13.0,
+      "measured_jaw_deg": 17.99868928,
+      "trans_err_cm": 0.059372556283569855,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.161,
+        0.1275,
+        0.0315,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "jaw": {
+        "commanded_deg": 16.0,
+        "measured_deg": 17.99868928,
+        "effort": 0.02,
+        "residual_deg": 1.9986892800000011,
+        "residual_excess_deg": 32.99868928,
+        "effort_excess": 0.0,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +33.00 deg past the empty-jaw stop (margin 1.00 deg); effort +0.0000 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 70,
+      "phase": "close",
+      "phase_step": 10,
+      "measured_cm": [
+        -5.032698040596411,
+        1.4966082030938708,
+        4.940766753668838
+      ],
+      "command_cm": [
+        -5.046676164925191,
+        1.5094282568033766,
+        4.944490136795519
+      ],
+      "command_jaw_deg": 9.999999999999998,
+      "measured_jaw_deg": 14.999475712,
+      "trans_err_cm": 0.0552255080892743,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.1398,
+        0.1282,
+        0.0372,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "jaw": {
+        "commanded_deg": 13.0,
+        "measured_deg": 14.999475712,
+        "effort": 0.02,
+        "residual_deg": 1.9994757120000022,
+        "residual_excess_deg": 29.999475712000002,
+        "effort_excess": 0.0,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +30.00 deg past the empty-jaw stop (margin 1.00 deg); effort +0.0000 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 71,
+      "phase": "close",
+      "phase_step": 11,
+      "measured_cm": [
+        -5.0579489618537306,
+        1.5067590417066505,
+        4.921079284093512
+      ],
+      "command_cm": [
+        -5.063089266290783,
+        1.5160262762040084,
+        4.9316931783151725
+      ],
+      "command_jaw_deg": 6.999999999999998,
+      "measured_jaw_deg": 11.9997902848,
+      "trans_err_cm": 0.04285375710413646,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.0514,
+        0.0927,
+        0.1061,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "jaw": {
+        "commanded_deg": 9.999999999999998,
+        "measured_deg": 11.9997902848,
+        "effort": 0.02,
+        "residual_deg": 1.9997902848000013,
+        "residual_excess_deg": 26.9997902848,
+        "effort_excess": 0.0,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +27.00 deg past the empty-jaw stop (margin 1.00 deg); effort +0.0000 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 72,
+      "phase": "close",
+      "phase_step": 12,
+      "measured_cm": [
+        -5.07184902780283,
+        1.5118884177097636,
+        4.9250186582390905
+      ],
+      "command_cm": [
+        -5.072124401251489,
+        1.5193603848081323,
+        4.934254016170908
+      ],
+      "command_jaw_deg": 3.999999999999998,
+      "measured_jaw_deg": 8.99991611392,
+      "trans_err_cm": 0.03395042580971478,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.0028,
+        0.0747,
+        0.0924,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "jaw": {
+        "commanded_deg": 6.999999999999998,
+        "measured_deg": 8.99991611392,
+        "effort": 0.02,
+        "residual_deg": 1.9999161139200015,
+        "residual_excess_deg": 23.999916113919998,
+        "effort_excess": 0.0,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +24.00 deg past the empty-jaw stop (margin 1.00 deg); effort +0.0000 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 73,
+      "phase": "close",
+      "phase_step": 13,
+      "measured_cm": [
+        -5.070990602153612,
+        1.5134983404209978,
+        4.949318244339695
+      ],
+      "command_cm": [
+        -5.071566383002925,
+        1.5204067932599654,
+        4.950048568119322
+      ],
+      "command_jaw_deg": 0.9999999999999974,
+      "measured_jaw_deg": 5.999966445567998,
+      "trans_err_cm": 0.01991664837534722,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.0058,
+        0.0691,
+        0.0073,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "jaw": {
+        "commanded_deg": 3.999999999999998,
+        "measured_deg": 5.999966445567998,
+        "effort": 0.02,
+        "residual_deg": 1.9999664455680006,
+        "residual_excess_deg": 20.999966445567996,
+        "effort_excess": 0.0,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +21.00 deg past the empty-jaw stop (margin 1.00 deg); effort +0.0000 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 74,
+      "phase": "close",
+      "phase_step": 14,
+      "measured_cm": [
+        -5.078030301518641,
+        1.5176738013340476,
+        4.936752941399405
+      ],
+      "command_cm": [
+        -5.076142073966187,
+        1.5231208968527947,
+        4.941881229539499
+      ],
+      "command_jaw_deg": -2.0000000000000027,
+      "measured_jaw_deg": 3.5999865782271994,
+      "trans_err_cm": 0.02204548430385551,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.0189,
+        0.0545,
+        0.0513,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "jaw": {
+        "commanded_deg": 0.9999999999999974,
+        "measured_deg": 3.5999865782271994,
+        "effort": 0.08981317007977337,
+        "residual_deg": 2.599986578227202,
+        "residual_excess_deg": 18.5999865782272,
+        "effort_excess": 0.06981317007977336,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +18.60 deg past the empty-jaw stop (margin 1.00 deg); effort +0.0698 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 75,
+      "phase": "close",
+      "phase_step": 15,
+      "measured_cm": [
+        -5.0866723707684915,
+        1.4978310410364006,
+        4.952256927957058
+      ],
+      "command_cm": [
+        -5.081759541508565,
+        1.5102230968682455,
+        4.951958857058591
+      ],
+      "command_jaw_deg": -5.000000000000003,
+      "measured_jaw_deg": 2.6399946312908797,
+      "trans_err_cm": 0.03809630225350687,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.0491,
+        0.1239,
+        -0.003,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "jaw": {
+        "commanded_deg": -2.0000000000000027,
+        "measured_deg": 2.6399946312908797,
+        "effort": 0.2992526803190929,
+        "residual_deg": 4.639994631290883,
+        "residual_excess_deg": 17.63999463129088,
+        "effort_excess": 0.2792526803190929,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.64 deg past the empty-jaw stop (margin 1.00 deg); effort +0.2793 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 76,
+      "phase": "close",
+      "phase_step": 16,
+      "measured_cm": [
+        -5.104609901861615,
+        1.495305968904479,
+        4.959143750098815
+      ],
+      "command_cm": [
+        -5.09341889159997,
+        1.5085817657100484,
+        4.9564352435722645
+      ],
+      "command_jaw_deg": -8.000000000000004,
+      "measured_jaw_deg": 2.255997852516352,
+      "trans_err_cm": 0.050209448596776125,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.1119,
+        0.1328,
+        -0.0271,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "jaw": {
+        "commanded_deg": -5.000000000000003,
+        "measured_deg": 2.255997852516352,
+        "effort": 0.5086921905584125,
+        "residual_deg": 7.255997852516356,
+        "residual_excess_deg": 17.25599785251635,
+        "effort_excess": 0.4886921905584125,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.26 deg past the empty-jaw stop (margin 1.00 deg); effort +0.4887 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 77,
+      "phase": "close",
+      "phase_step": 17,
+      "measured_cm": [
+        -5.085367424281079,
+        1.5005794706899471,
+        4.916049927362488
+      ],
+      "command_cm": [
+        -5.08091138119855,
+        1.5120095551931416,
+        4.9284242090884165
+      ],
+      "command_jaw_deg": -11.000000000000004,
+      "measured_jaw_deg": 2.102399141006541,
+      "trans_err_cm": 0.04978560903160531,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.0446,
+        0.1143,
+        0.1237,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "jaw": {
+        "commanded_deg": -8.000000000000004,
+        "measured_deg": 2.102399141006541,
+        "effort": 0.718131700797732,
+        "residual_deg": 10.102399141006543,
+        "residual_excess_deg": 17.10239914100654,
+        "effort_excess": 0.698131700797732,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.10 deg past the empty-jaw stop (margin 1.00 deg); effort +0.6981 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 78,
+      "phase": "close",
+      "phase_step": 18,
+      "measured_cm": [
+        -5.072501115452638,
+        1.517200824370983,
+        4.900176584778981
+      ],
+      "command_cm": [
+        -5.072548346172491,
+        1.5228134360356684,
+        4.918106567279532
+      ],
+      "command_jaw_deg": -14.000000000000004,
+      "measured_jaw_deg": 2.0409596564026167,
+      "trans_err_cm": 0.05368011827274787,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.0005,
+        0.0561,
+        0.1793,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "jaw": {
+        "commanded_deg": -11.000000000000004,
+        "measured_deg": 2.0409596564026167,
+        "effort": 0.9275712110370515,
+        "residual_deg": 13.04095965640262,
+        "residual_excess_deg": 17.040959656402617,
+        "effort_excess": 0.9075712110370515,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.04 deg past the empty-jaw stop (margin 1.00 deg); effort +0.9076 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 79,
+      "phase": "close",
+      "phase_step": 19,
+      "measured_cm": [
+        -5.057141904516601,
+        1.508791440027,
+        4.895582804956466
+      ],
+      "command_cm": [
+        -5.062564758825166,
+        1.517347334778428,
+        4.9151206347471295
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.016383862561047,
+      "trans_err_cm": 0.06287916319941271,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.0542,
+        0.0856,
+        0.1954,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.000000000000004,
+        "measured_deg": 2.016383862561047,
+        "effort": 1.1370107212763712,
+        "residual_deg": 16.016383862561053,
+        "residual_excess_deg": 17.016383862561046,
+        "effort_excess": 1.1170107212763711,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.02 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1170 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 80,
+      "phase": "close",
+      "phase_step": 20,
+      "measured_cm": [
+        -5.060650144605881,
+        1.5137779261504436,
+        4.919173114766952
+      ],
+      "command_cm": [
+        -5.064845167015613,
+        1.5205885379603652,
+        4.930454247255779
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0065535450244187,
+      "trans_err_cm": 0.03951226349224638,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.042,
+        0.0681,
+        0.1128,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0065535450244187,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.006553545024417,
+        "residual_excess_deg": 17.006553545024417,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.01 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 81,
+      "phase": "close",
+      "phase_step": 21,
+      "measured_cm": [
+        -5.0969601281821015,
+        1.5568331402858129,
+        4.918401074964904
+      ],
+      "command_cm": [
+        -5.088446582532797,
+        1.548574440267815,
+        4.929952574135273
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0026214180097672,
+      "trans_err_cm": 0.04730474851618298,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.0851,
+        -0.0826,
+        0.1155,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0026214180097672,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.002621418009767,
+        "residual_excess_deg": 17.002621418009767,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 82,
+      "phase": "close",
+      "phase_step": 22,
+      "measured_cm": [
+        -5.119239768702726,
+        1.560951284039158,
+        4.922856491533249
+      ],
+      "command_cm": [
+        -5.1029283146451405,
+        1.5512512125118112,
+        4.932848542387361
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.001048567203907,
+      "trans_err_cm": 0.06127855062898867,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.1631,
+        -0.097,
+        0.0999,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.001048567203907,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.001048567203906,
+        "residual_excess_deg": 17.001048567203906,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 83,
+      "phase": "close",
+      "phase_step": 0,
+      "measured_cm": [
+        -5.096431144929682,
+        1.5444590438993104,
+        4.931653735177762
+      ],
+      "command_cm": [
+        -5.088102683632126,
+        1.5405312589271225,
+        4.938566777574596
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.000419426881563,
+      "trans_err_cm": 0.03289808544619939,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.0833,
+        -0.0393,
+        0.0691,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.000419426881563,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.00041942688156,
+        "residual_excess_deg": 17.00041942688156,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [
+        {
+          "i": 83,
+          "event": "jaw_at_grip_command",
+          "grip_deg": -14.999999999999998
+        },
+        {
+          "i": 83,
+          "from": "close",
+          "to": "observe",
+          "note": "jaw held at the squeeze angle"
+        }
+      ],
+      "reason": "running"
+    },
+    {
+      "i": 84,
+      "phase": "observe",
+      "phase_step": 1,
+      "measured_cm": [
+        -5.083187226757353,
+        1.5255982012474645,
+        4.952141569491786
+      ],
+      "command_cm": [
+        -5.079494218159093,
+        1.5282717436877287,
+        4.951883719809524
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.000167770752625,
+      "trans_err_cm": 0.01304708888249271,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.0369,
+        0.0267,
+        -0.0026,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.000167770752625,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.000167770752622,
+        "residual_excess_deg": 17.000167770752622,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 85,
+      "phase": "observe",
+      "phase_step": 2,
+      "measured_cm": [
+        -5.088892220140684,
+        1.5108780008043192,
+        4.953424368245974
+      ],
+      "command_cm": [
+        -5.083202503903855,
+        1.5187036141978667,
+        4.952717576381223
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.00006710830105,
+      "trans_err_cm": 0.027717710167129095,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.0569,
+        0.0783,
+        -0.0071,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.00006710830105,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.00006710830105,
+        "residual_excess_deg": 17.00006710830105,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 86,
+      "phase": "observe",
+      "phase_step": 3,
+      "measured_cm": [
+        -5.074301678334034,
+        1.5141220273654938,
+        4.935467180639631
+      ],
+      "command_cm": [
+        -5.073718554192137,
+        1.5208122258663208,
+        4.941045412343578
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.00002684332042,
+      "trans_err_cm": 0.02494348589087403,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.0058,
+        0.0669,
+        0.0558,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.00002684332042,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.00002684332042,
+        "residual_excess_deg": 17.00002684332042,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 87,
+      "phase": "observe",
+      "phase_step": 4,
+      "measured_cm": [
+        -5.061322842865964,
+        1.4856056500238652,
+        4.9204281296228665
+      ],
+      "command_cm": [
+        -5.065282379233932,
+        1.5022765916320948,
+        4.931269999700692
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.000010737328168,
+      "trans_err_cm": 0.05793359815683901,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.0396,
+        0.1667,
+        0.1084,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.000010737328168,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.000010737328168,
+        "residual_excess_deg": 17.000010737328168,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 88,
+      "phase": "observe",
+      "phase_step": 5,
+      "measured_cm": [
+        -5.064491921423264,
+        1.4750554036659935,
+        4.931829884985675
+      ],
+      "command_cm": [
+        -5.067342287011118,
+        1.4950554049139657,
+        4.938681176967589
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.000004294931267,
+      "trans_err_cm": 0.06192418362928944,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.0285,
+        0.2,
+        0.0685,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.000004294931267,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.000004294931266,
+        "residual_excess_deg": 17.000004294931266,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 89,
+      "phase": "observe",
+      "phase_step": 6,
+      "measured_cm": [
+        -5.0684395493714876,
+        1.5130302006911291,
+        4.920385369931323
+      ],
+      "command_cm": [
+        -5.069908207795378,
+        1.5201025424691554,
+        4.931242260380345
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.000001717972507,
+      "trans_err_cm": 0.03725794463630421,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.0147,
+        0.0707,
+        0.1086,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.000001717972507,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.000001717972506,
+        "residual_excess_deg": 17.000001717972506,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 90,
+      "phase": "observe",
+      "phase_step": 7,
+      "measured_cm": [
+        -5.082426338268211,
+        1.5267661761631754,
+        4.88209098857623
+      ],
+      "command_cm": [
+        -5.078999690919175,
+        1.529030914167366,
+        4.9020909898242016
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0000006871890026,
+      "trans_err_cm": 0.07030078685777931,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.0343,
+        0.0226,
+        0.2,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0000006871890026,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.000000687189,
+        "residual_excess_deg": 17.000000687189,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 91,
+      "phase": "observe",
+      "phase_step": 8,
+      "measured_cm": [
+        -5.016998844940883,
+        1.5150578995581305,
+        4.887494288769691
+      ],
+      "command_cm": [
+        -5.036471753349374,
+        1.5214205287971068,
+        4.907494290017663
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.000000274875601,
+      "trans_err_cm": 0.08666344704900365,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.1947,
+        0.0636,
+        0.2,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.000000274875601,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0000002748756,
+        "residual_excess_deg": 17.0000002748756,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 92,
+      "phase": "observe",
+      "phase_step": 9,
+      "measured_cm": [
+        -5.0192492031313,
+        1.520623891968393,
+        4.871905717643591
+      ],
+      "command_cm": [
+        -5.037934543410037,
+        1.525038420413865,
+        4.891905718891564
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0000001099502405,
+      "trans_err_cm": 0.09658876546659341,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.1869,
+        0.0441,
+        0.2,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0000001099502405,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.00000010995024,
+        "residual_excess_deg": 17.00000010995024,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 93,
+      "phase": "observe",
+      "phase_step": 0,
+      "measured_cm": [
+        -5.025395995808185,
+        1.542145977093849,
+        4.882906793422045
+      ],
+      "command_cm": [
+        -5.041929751359484,
+        1.5390277899429055,
+        4.9029067946700176
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0000000439800965,
+      "trans_err_cm": 0.08368396925459813,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.1653,
+        -0.0312,
+        0.2,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0000000439800965,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.000000043980094,
+        "residual_excess_deg": 17.000000043980094,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [
+        {
+          "i": 93,
+          "event": "grasp_gate",
+          "gate": "evidence",
+          "action": "lift",
+          "reason": "the jaw stopped early on 10 consecutive cycles. This is consistent with something between the fingers; it is NOT a confirmed grasp.",
+          "evidence": {
+            "samples": 10,
+            "blocked_samples": 10,
+            "unknown_samples": 0,
+            "current_streak": 10,
+            "required_streak": 3,
+            "grasp_verified": false,
+            "last": {
+              "commanded_deg": -14.999999999999998,
+              "measured_deg": 2.0000000439800965,
+              "effort": 1.206823891356144,
+              "residual_deg": 17.000000043980094,
+              "residual_excess_deg": 17.000000043980094,
+              "effort_excess": 1.186823891356144,
+              "jaw_blocked": true,
+              "grasp_verified": false,
+              "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+            }
+          }
+        },
+        {
+          "i": 93,
+          "from": "observe",
+          "to": "lift",
+          "note": "the jaw stopped early on 10 consecutive cycles. This is consistent with something between the fingers; it is NOT a confirmed grasp."
+        }
+      ],
+      "reason": "running"
+    },
+    {
+      "i": 94,
+      "phase": "lift",
+      "phase_step": 1,
+      "measured_cm": [
+        -5.047561758525324,
+        1.5487474818880933,
+        4.8847311896717285
+      ],
+      "command_cm": [
+        -5.068874662405427,
+        1.5355635060421615,
+        4.784731184921983
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0000000175920385,
+      "trans_err_cm": 1.4336290966267504,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.2131,
+        -0.1318,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0000000175920385,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.000000017592036,
+        "residual_excess_deg": 17.000000017592036,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 95,
+      "phase": "lift",
+      "phase_step": 2,
+      "measured_cm": [
+        -5.060106891121288,
+        1.5395494762510513,
+        4.771232532606465
+      ],
+      "command_cm": [
+        -5.070756452764076,
+        1.5341837589576812,
+        4.67123252785672
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0000000070368156,
+      "trans_err_cm": 1.3199017931651138,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.1065,
+        -0.0537,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0000000070368156,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.000000007036814,
+        "residual_excess_deg": 17.000000007036814,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 96,
+      "phase": "lift",
+      "phase_step": 3,
+      "measured_cm": [
+        -5.098598490240313,
+        1.5296716423424597,
+        4.653724082691516
+      ],
+      "command_cm": [
+        -5.0765300855308695,
+        1.5327020556893378,
+        4.553724077941771
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0000000028147262,
+      "trans_err_cm": 1.2026043542046718,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.2207,
+        0.0303,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0000000028147262,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.000000002814726,
+        "residual_excess_deg": 17.000000002814726,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 97,
+      "phase": "lift",
+      "phase_step": 4,
+      "measured_cm": [
+        -5.056501881017266,
+        1.5355837630593363,
+        4.569365768392969
+      ],
+      "command_cm": [
+        -5.0702155991292654,
+        1.5335889208599727,
+        4.469365763643224
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0000000011258905,
+      "trans_err_cm": 1.118079342788611,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.1371,
+        -0.0199,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0000000011258905,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.00000000112589,
+        "residual_excess_deg": 17.00000000112589,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 98,
+      "phase": "lift",
+      "phase_step": 5,
+      "measured_cm": [
+        -5.067523160422376,
+        1.5388469432016731,
+        4.453705785298616
+      ],
+      "command_cm": [
+        -5.071868911064975,
+        1.5340783512284895,
+        4.353705780548871
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.000000000450356,
+      "trans_err_cm": 1.0023292240953057,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.0435,
+        -0.0477,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.000000000450356,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.000000000450356,
+        "residual_excess_deg": 17.000000000450356,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 99,
+      "phase": "lift",
+      "phase_step": 6,
+      "measured_cm": [
+        -5.0585079625335325,
+        1.5697723167146298,
+        4.347512029438519
+      ],
+      "command_cm": [
+        -5.067690987584752,
+        1.5460242411147063,
+        4.277512027305791
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0000000001801426,
+      "trans_err_cm": 0.8969624853835486,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.0918,
+        -0.2375,
+        -0.7,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0000000001801426,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.00000000018014,
+        "residual_excess_deg": 17.00000000018014,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 100,
+      "phase": "lift",
+      "phase_step": 7,
+      "measured_cm": [
+        -5.079546478139035,
+        1.5428675070708993,
+        4.267886421633769
+      ],
+      "command_cm": [
+        -5.07505445769121,
+        1.5366075647188193,
+        4.197886419501041
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.000000000072057,
+      "trans_err_cm": 0.816567161617082,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.0449,
+        -0.0626,
+        -0.7,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.000000000072057,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.000000000072056,
+        "residual_excess_deg": 17.000000000072056,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 101,
+      "phase": "lift",
+      "phase_step": 8,
+      "measured_cm": [
+        -5.089084043664281,
+        1.5393714375981826,
+        4.1920680688400385
+      ],
+      "command_cm": [
+        -5.078392520349578,
+        1.535383928769093,
+        4.1220680667073095
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.000000000028823,
+      "trans_err_cm": 0.7408707834073585,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.1069,
+        -0.0399,
+        -0.7,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.000000000028823,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.00000000002882,
+        "residual_excess_deg": 17.00000000002882,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 102,
+      "phase": "lift",
+      "phase_step": 9,
+      "measured_cm": [
+        -5.049615048472725,
+        1.5353879616281956,
+        4.1285463062599375
+      ],
+      "command_cm": [
+        -5.064578532993877,
+        1.5339897260954516,
+        4.058546304127209
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.000000000011529,
+      "trans_err_cm": 0.6775356225480615,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.1496,
+        -0.014,
+        -0.7,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.000000000011529,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.00000000001153,
+        "residual_excess_deg": 17.00000000001153,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 103,
+      "phase": "lift",
+      "phase_step": 10,
+      "measured_cm": [
+        -5.045538095633881,
+        1.5279746090453608,
+        4.087281034928988
+      ],
+      "command_cm": [
+        -5.0631516012975,
+        1.5313950753924404,
+        4.017281032796259
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.000000000004612,
+      "trans_err_cm": 0.6364746044737007,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.1761,
+        0.0342,
+        -0.7,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.000000000004612,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.00000000000461,
+        "residual_excess_deg": 17.00000000000461,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 104,
+      "phase": "lift",
+      "phase_step": 11,
+      "measured_cm": [
+        -5.075805485547901,
+        1.5152285213547179,
+        4.009955692419254
+      ],
+      "command_cm": [
+        -5.073744976908269,
+        1.5269339495275303,
+        3.9399556902865256
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0000000000018447,
+      "trans_err_cm": 0.5588496131461076,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.0206,
+        0.1171,
+        -0.7,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0000000000018447,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.000000000001844,
+        "residual_excess_deg": 17.000000000001844,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 105,
+      "phase": "lift",
+      "phase_step": 12,
+      "measured_cm": [
+        -5.0760393247476125,
+        1.4989075855255491,
+        3.9392537946039488
+      ],
+      "command_cm": [
+        -5.073826943465879,
+        1.5212216269482441,
+        3.8692537924712203
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.000000000000738,
+      "trans_err_cm": 0.4890667032021778,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.0221,
+        0.2231,
+        -0.7,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.000000000000738,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.000000000000735,
+        "residual_excess_deg": 17.000000000000735,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 106,
+      "phase": "lift",
+      "phase_step": 13,
+      "measured_cm": [
+        -5.107176675274667,
+        1.5490643949591543,
+        3.8676338534430665
+      ],
+      "command_cm": [
+        -5.084724941155537,
+        1.5387764964366482,
+        3.7976338513103376
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.000000000000295,
+      "trans_err_cm": 0.4179590856422607,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.2245,
+        -0.1029,
+        -0.7,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.000000000000295,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.000000000000295,
+        "residual_excess_deg": 17.000000000000295,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 107,
+      "phase": "lift",
+      "phase_step": 14,
+      "measured_cm": [
+        -5.097564095649457,
+        1.5206097340709765,
+        3.7899452418261736
+      ],
+      "command_cm": [
+        -5.081360835948207,
+        1.5288173648269052,
+        3.719945239693445
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.000000000000118,
+      "trans_err_cm": 0.33969127519075887,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.162,
+        0.0821,
+        -0.7,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.000000000000118,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.000000000000117,
+        "residual_excess_deg": 17.000000000000117,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 108,
+      "phase": "lift",
+      "phase_step": 15,
+      "measured_cm": [
+        -5.085822425316815,
+        1.5079271455146779,
+        3.7015493378169886
+      ],
+      "command_cm": [
+        -5.079228959198589,
+        1.5205820466665958,
+        3.6615493353210447
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0000000000000475,
+      "trans_err_cm": 0.2517667830593929,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.0659,
+        0.1265,
+        -0.4,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0000000000000475,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.000000000000046,
+        "residual_excess_deg": 17.000000000000046,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 109,
+      "phase": "lift",
+      "phase_step": 16,
+      "measured_cm": [
+        -5.08297245929982,
+        1.510166371710683,
+        3.680333597394611
+      ],
+      "command_cm": [
+        -5.077804021469098,
+        1.5217015988122553,
+        3.6403335948986664
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.000000000000019,
+      "trans_err_cm": 0.23031991493652032,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        0.0517,
+        0.1154,
+        -0.4,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.000000000000019,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.000000000000018,
+        "residual_excess_deg": 17.000000000000018,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 110,
+      "phase": "lift",
+      "phase_step": 0,
+      "measured_cm": [
+        -5.055046613984187,
+        1.5220220228842531,
+        3.649805586339757
+      ],
+      "command_cm": [
+        -5.063841159784166,
+        1.527629448944597,
+        3.609805583843813
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0000000000000075,
+      "trans_err_cm": 0.19949391728895002,
+      "rot_err_deg": 4.7971431683085517e-14,
+      "action": [
+        -0.0879,
+        0.0561,
+        -0.4,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0000000000000075,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.000000000000004,
+        "residual_excess_deg": 17.000000000000004,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [
+        {
+          "i": 110,
+          "event": "lift_reached",
+          "height_cm": 1.3017668623897367
+        },
+        {
+          "i": 110,
+          "event": "suture_compensation",
+          "mode": "apply",
+          "shift_mm": 0.32122701478482163,
+          "turn_deg": 5.6118972262144696e-14,
+          "taught_grasp_cm": [
+            -5.0726357,
+            1.5332369000000001,
+            4.9514053
+          ],
+          "measured_grasp_cm": [
+            -5.09377321601572,
+            1.5567518785659717,
+            4.945737924063749
+          ],
+          "note": "the suturing pose was taught with one grasp; the jaws closed at another, so the needle sits differently in them. This corrects for that exactly, ASSUMING the needle itself did not move."
+        },
+        {
+          "i": 110,
+          "event": "transport_begin",
+          "target": "via",
+          "travel_cm": 1.8752173010356663,
+          "rotation_deg": 65.43930056698431
+        },
+        {
+          "i": 110,
+          "from": "lift",
+          "to": "transport",
+          "note": "carrying the needle to the suturing point"
+        }
+      ],
+      "reason": "running"
+    },
+    {
+      "i": 111,
+      "phase": "transport",
+      "phase_step": 1,
+      "measured_cm": [
+        -5.090544927256669,
+        1.5403778031332491,
+        3.609193914453548
+      ],
+      "command_cm": [
+        -5.070544926008696,
+        1.520377801885277,
+        3.5891939132055755
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.000000000000003,
+      "trans_err_cm": 1.88025109567544,
+      "rot_err_deg": 65.43930056698431,
+      "action": [
+        0.2,
+        -0.2,
+        -0.2,
+        -0.2257,
+        -0.8902,
+        0.2526,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.000000000000003,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 112,
+      "phase": "transport",
+      "phase_step": 2,
+      "measured_cm": [
+        -5.06085155968968,
+        1.55238492451715,
+        3.5435767580786877
+      ],
+      "command_cm": [
+        -5.040851558441707,
+        1.5323849232691777,
+        3.5235767568307153
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0000000000000013,
+      "trans_err_cm": 1.8308370315538915,
+      "rot_err_deg": 62.439300472045346,
+      "action": [
+        0.2,
+        -0.2,
+        -0.2,
+        -0.2311,
+        -0.8884,
+        0.2545,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0000000000000013,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 113,
+      "phase": "transport",
+      "phase_step": 3,
+      "measured_cm": [
+        -5.035632594860639,
+        1.5104025420058205,
+        3.5354206906588046
+      ],
+      "command_cm": [
+        -5.015632593612667,
+        1.4904025407578483,
+        3.515420689410832
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0000000000000004,
+      "trans_err_cm": 1.7877354752091175,
+      "rot_err_deg": 59.439300342819365,
+      "action": [
+        0.2,
+        -0.2,
+        -0.2,
+        -0.2366,
+        -0.8864,
+        0.2572,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0000000000000004,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 114,
+      "phase": "transport",
+      "phase_step": 4,
+      "measured_cm": [
+        -5.0418988623612355,
+        1.4804945494177684,
+        3.5194753645260395
+      ],
+      "command_cm": [
+        -5.021898861113263,
+        1.4604945481697962,
+        3.499475363278067
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 1.7651902787754792,
+      "rot_err_deg": 56.439300280069055,
+      "action": [
+        0.2,
+        -0.2,
+        -0.2,
+        -0.2423,
+        -0.8842,
+        0.2605,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 115,
+      "phase": "transport",
+      "phase_step": 5,
+      "measured_cm": [
+        -5.009628673384555,
+        1.4619904299565276,
+        3.483618744498311
+      ],
+      "command_cm": [
+        -4.9896286721365835,
+        1.4419904287085554,
+        3.4636187432503385
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 1.714839189548397,
+      "rot_err_deg": 53.43930023636661,
+      "action": [
+        0.2,
+        -0.2,
+        -0.2,
+        -0.2481,
+        -0.8818,
+        0.2643,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 116,
+      "phase": "transport",
+      "phase_step": 6,
+      "measured_cm": [
+        -5.000699316490891,
+        1.4596804865335429,
+        3.463508750936608
+      ],
+      "command_cm": [
+        -4.980699315242918,
+        1.4396804852855707,
+        3.4435087496886356
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 1.69651023002186,
+      "rot_err_deg": 50.43930021203634,
+      "action": [
+        0.2,
+        -0.2,
+        -0.2,
+        -0.2541,
+        -0.8793,
+        0.2687,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 117,
+      "phase": "transport",
+      "phase_step": 7,
+      "measured_cm": [
+        -5.01437560317974,
+        1.4565537394509644,
+        3.451833719282905
+      ],
+      "command_cm": [
+        -4.994375601931768,
+        1.4365537382029923,
+        3.431833718034932
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 1.6959904511285662,
+      "rot_err_deg": 47.43930014792671,
+      "action": [
+        0.2,
+        -0.2,
+        -0.2,
+        -0.2605,
+        -0.8765,
+        0.2737,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 118,
+      "phase": "transport",
+      "phase_step": 8,
+      "measured_cm": [
+        -4.976907291026729,
+        1.4298211888754586,
+        3.448396848403464
+      ],
+      "command_cm": [
+        -4.956907289778757,
+        1.4098211876274864,
+        3.4283968471554918
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 1.6570114914108245,
+      "rot_err_deg": 44.43930009299587,
+      "action": [
+        0.2,
+        -0.2,
+        -0.2,
+        -0.2672,
+        -0.8734,
+        0.2793,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 119,
+      "phase": "transport",
+      "phase_step": 9,
+      "measured_cm": [
+        -4.97812858817879,
+        1.4212211838447957,
+        3.4185892409629304
+      ],
+      "command_cm": [
+        -4.958128586930818,
+        1.4012211825968233,
+        3.398589239714958
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 1.635476052630099,
+      "rot_err_deg": 41.43929995111319,
+      "action": [
+        0.2,
+        -0.2,
+        -0.2,
+        -0.2743,
+        -0.8701,
+        0.2854,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 120,
+      "phase": "transport",
+      "phase_step": 10,
+      "measured_cm": [
+        -4.944641552832415,
+        1.4213340649251511,
+        3.3838694366747877
+      ],
+      "command_cm": [
+        -4.924641551584442,
+        1.401334063677179,
+        3.3638694354268153
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 1.5958352668704952,
+      "rot_err_deg": 38.43929983772272,
+      "action": [
+        0.2,
+        -0.2,
+        -0.2,
+        -0.2818,
+        -0.8666,
+        0.292,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 121,
+      "phase": "transport",
+      "phase_step": 11,
+      "measured_cm": [
+        -4.925666141174418,
+        1.402113156206299,
+        3.3876627317836276
+      ],
+      "command_cm": [
+        -4.905666139926445,
+        1.3821131549583265,
+        3.3676627305356552
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 1.5759747353300004,
+      "rot_err_deg": 35.43929981762038,
+      "action": [
+        0.2,
+        -0.2,
+        -0.2,
+        -0.2899,
+        -0.8627,
+        0.2993,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 122,
+      "phase": "transport",
+      "phase_step": 12,
+      "measured_cm": [
+        -4.891454978099049,
+        1.3577276040781174,
+        3.3768148957498267
+      ],
+      "command_cm": [
+        -4.871454976851077,
+        1.3377276028301452,
+        3.3568148945018543
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 1.5247298397397584,
+      "rot_err_deg": 32.439299710302166,
+      "action": [
+        0.2,
+        -0.2,
+        -0.2,
+        -0.2985,
+        -0.8586,
+        0.3073,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 123,
+      "phase": "transport",
+      "phase_step": 13,
+      "measured_cm": [
+        -4.856553192663495,
+        1.3802037207487001,
+        3.32323191256677
+      ],
+      "command_cm": [
+        -4.836553191415522,
+        1.360203719500728,
+        3.3032319113187976
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 1.4863137269258575,
+      "rot_err_deg": 29.439299599295936,
+      "action": [
+        0.2,
+        -0.2,
+        -0.2,
+        -0.2299,
+        -0.641,
+        0.2361,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 124,
+      "phase": "transport",
+      "phase_step": 14,
+      "measured_cm": [
+        -4.847280237414202,
+        1.3868711432624745,
+        3.276130505346664
+      ],
+      "command_cm": [
+        -4.82728023616623,
+        1.3668711420145023,
+        3.2561305040986914
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 1.4584628090873748,
+      "rot_err_deg": 27.18929960116131,
+      "action": [
+        0.2,
+        -0.2,
+        -0.2,
+        -0.2353,
+        -0.6383,
+        0.2412,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 125,
+      "phase": "transport",
+      "phase_step": 15,
+      "measured_cm": [
+        -4.851269447844724,
+        1.3772127859221082,
+        3.2764986773162668
+      ],
+      "command_cm": [
+        -4.831269446596751,
+        1.357212784674136,
+        3.2564986760682944
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 1.455145000693539,
+      "rot_err_deg": 24.939299515396797,
+      "action": [
+        0.2,
+        -0.2,
+        -0.2,
+        -0.241,
+        -0.6354,
+        0.2466,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 126,
+      "phase": "transport",
+      "phase_step": 16,
+      "measured_cm": [
+        -4.844643056344263,
+        1.3680153281199772,
+        3.2588377814568936
+      ],
+      "command_cm": [
+        -4.824643055096291,
+        1.348015326872005,
+        3.238837780208921
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 1.436043712007995,
+      "rot_err_deg": 22.689299462296482,
+      "action": [
+        0.2,
+        -0.2,
+        -0.2,
+        -0.247,
+        -0.6324,
+        0.2524,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 127,
+      "phase": "transport",
+      "phase_step": 17,
+      "measured_cm": [
+        -4.794268074415916,
+        1.3479849580778303,
+        3.2586427264482825
+      ],
+      "command_cm": [
+        -4.774268073167944,
+        1.327984956829858,
+        3.23864272520031
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 1.3950917886245515,
+      "rot_err_deg": 20.439299456784983,
+      "action": [
+        0.2,
+        -0.2,
+        -0.2,
+        -0.2533,
+        -0.6292,
+        0.2585,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 128,
+      "phase": "transport",
+      "phase_step": 18,
+      "measured_cm": [
+        -4.7923304303542285,
+        1.3242873798406174,
+        3.236708636125074
+      ],
+      "command_cm": [
+        -4.7723304291062565,
+        1.3042873785926452,
+        3.2167086348771017
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 1.3673825998245335,
+      "rot_err_deg": 18.189299324523247,
+      "action": [
+        0.2,
+        -0.2,
+        -0.2,
+        -0.26,
+        -0.6258,
+        0.2649,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 129,
+      "phase": "transport",
+      "phase_step": 19,
+      "measured_cm": [
+        -4.749548270156552,
+        1.3158796393830543,
+        3.2016735722512304
+      ],
+      "command_cm": [
+        -4.729548268908579,
+        1.2958796381350821,
+        3.181673571003258
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 1.3185300458889464,
+      "rot_err_deg": 15.939299201473581,
+      "action": [
+        0.2,
+        -0.2,
+        -0.2,
+        -0.267,
+        -0.6222,
+        0.2717,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 130,
+      "phase": "transport",
+      "phase_step": 20,
+      "measured_cm": [
+        -4.715908913634981,
+        1.3112922636636344,
+        3.1794406565568694
+      ],
+      "command_cm": [
+        -4.660908909830528,
+        1.2562922598591815,
+        3.1244406527524164
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 1.2847234815924733,
+      "rot_err_deg": 13.68929910687953,
+      "action": [
+        0.55,
+        -0.55,
+        -0.55,
+        -0.2744,
+        -0.6184,
+        0.2789,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 131,
+      "phase": "transport",
+      "phase_step": 21,
+      "measured_cm": [
+        -4.666062156131164,
+        1.2524161949507304,
+        3.090540804632639
+      ],
+      "command_cm": [
+        -4.611062152326712,
+        1.1974161911462777,
+        3.035540800828186
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 1.1717561511694508,
+      "rot_err_deg": 11.439299076935248,
+      "action": [
+        0.55,
+        -0.55,
+        -0.55,
+        -0.2822,
+        -0.6143,
+        0.2866,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 132,
+      "phase": "transport",
+      "phase_step": 22,
+      "measured_cm": [
+        -4.607287292164219,
+        1.2021077497308232,
+        3.0182302303530064
+      ],
+      "command_cm": [
+        -4.552287288359767,
+        1.1471077459263705,
+        2.9632302265485535
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 1.0687740521545817,
+      "rot_err_deg": 9.1892989955291,
+      "action": [
+        0.55,
+        -0.55,
+        -0.55,
+        -0.1732,
+        -0.3665,
+        0.1758,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 133,
+      "phase": "transport",
+      "phase_step": 23,
+      "measured_cm": [
+        -4.5374383633622655,
+        1.119648407209898,
+        2.9521939701206943
+      ],
+      "command_cm": [
+        -4.4674383612295365,
+        1.0496484050771693,
+        2.882193967987966
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 0.9421365055494818,
+      "rot_err_deg": 7.8392989516865415,
+      "action": [
+        0.7,
+        -0.7,
+        -0.7,
+        -0.1763,
+        -0.3649,
+        0.1788,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 134,
+      "phase": "transport",
+      "phase_step": 24,
+      "measured_cm": [
+        -4.476942742609367,
+        1.0893986017169477,
+        2.8502102867228083
+      ],
+      "command_cm": [
+        -4.406942740476639,
+        1.0193985995842192,
+        2.78021028459008
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 0.8386832194853601,
+      "rot_err_deg": 6.489298880820508,
+      "action": [
+        0.7,
+        -0.7,
+        -0.7,
+        -0.1794,
+        -0.3633,
+        0.1819,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 135,
+      "phase": "transport",
+      "phase_step": 25,
+      "measured_cm": [
+        -4.395690135372514,
+        1.0382410651359983,
+        2.787764795870877
+      ],
+      "command_cm": [
+        -4.325690133239785,
+        0.9682410630032697,
+        2.7177647937381484
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 0.7304173296140282,
+      "rot_err_deg": 5.13929888045587,
+      "action": [
+        0.7,
+        -0.7,
+        -0.7,
+        -0.1827,
+        -0.3615,
+        0.1851,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 136,
+      "phase": "transport",
+      "phase_step": 26,
+      "measured_cm": [
+        -4.3020539743527175,
+        0.9481863092607413,
+        2.6721596216919044
+      ],
+      "command_cm": [
+        -4.232053972219989,
+        0.8781863071280127,
+        2.602159619559176
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 0.5676181665941625,
+      "rot_err_deg": 3.7892988505358844,
+      "action": [
+        0.7,
+        -0.7,
+        -0.7,
+        -0.186,
+        -0.3597,
+        0.1884,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 137,
+      "phase": "transport",
+      "phase_step": 27,
+      "measured_cm": [
+        -4.216717614440584,
+        0.8542697438345909,
+        2.5956316220282574
+      ],
+      "command_cm": [
+        -4.146717612307855,
+        0.7842697417018621,
+        2.525631619895529
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 0.424572494313136,
+      "rot_err_deg": 2.439298841511021,
+      "action": [
+        0.7,
+        -0.7,
+        -0.7,
+        -0.1048,
+        -0.199,
+        0.1061,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 138,
+      "phase": "transport",
+      "phase_step": 28,
+      "measured_cm": [
+        -4.17029453225635,
+        0.8053165788408528,
+        2.5429346245928772
+      ],
+      "command_cm": [
+        -4.100294530123621,
+        0.7353165767081242,
+        2.4956555892824013
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 0.34791576419782383,
+      "rot_err_deg": 1.689298827950882,
+      "action": [
+        0.7,
+        -0.7,
+        -0.4728,
+        -0.0834,
+        -0.1565,
+        0.0844,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 139,
+      "phase": "transport",
+      "phase_step": 0,
+      "measured_cm": [
+        -4.114695803361761,
+        0.7533864136003174,
+        2.4980811344687956
+      ],
+      "command_cm": [
+        -4.074695800865817,
+        0.713386411104373,
+        2.4841393689750544
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 0.27089796781730135,
+      "rot_err_deg": 1.098043275614728,
+      "action": [
+        0.4,
+        -0.4,
+        -0.1394,
+        -0.0546,
+        -0.1015,
+        0.0552,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [
+        {
+          "i": 139,
+          "event": "transport_reached",
+          "trans_err_cm": 0.27089796781730135,
+          "rot_err_deg": 1.098043275614728
+        },
+        {
+          "i": 139,
+          "from": "transport",
+          "to": "place",
+          "note": "above the suturing point, descending"
+        }
+      ],
+      "reason": "running"
+    },
+    {
+      "i": 140,
+      "phase": "place",
+      "phase_step": 1,
+      "measured_cm": [
+        -4.077483577477012,
+        0.7145347443452201,
+        2.4800843817780556
+      ],
+      "command_cm": [
+        -4.021010295795346,
+        0.614534739595475,
+        2.5800843865278007
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 1.5062866126490988,
+      "rot_err_deg": 0.713726509239206,
+      "action": [
+        0.5647,
+        -1.0,
+        1.0,
+        -0.0356,
+        -0.0659,
+        0.036,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 141,
+      "phase": "place",
+      "phase_step": 2,
+      "measured_cm": [
+        -4.0087101905191265,
+        0.6207416910043367,
+        2.573095043599124
+      ],
+      "command_cm": [
+        -4.010694595944695,
+        0.5220726878379677,
+        2.6730950483488694
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 1.4019188217270284,
+      "rot_err_deg": 0.46392050309430666,
+      "action": [
+        -0.0198,
+        -0.9867,
+        1.0,
+        -0.0232,
+        -0.0428,
+        0.0235,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 142,
+      "phase": "place",
+      "phase_step": 3,
+      "measured_cm": [
+        -3.990569481028384,
+        0.5098431755426912,
+        2.6788337212102187
+      ],
+      "command_cm": [
+        -4.007973357146371,
+        0.5054378947582953,
+        2.778833725959964
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 1.2915367740347172,
+      "rot_err_deg": 0.30154819648017445,
+      "action": [
+        -0.174,
+        -0.0441,
+        1.0,
+        -0.0151,
+        -0.0278,
+        0.0153,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 143,
+      "phase": "place",
+      "phase_step": 4,
+      "measured_cm": [
+        -3.9995302497213245,
+        0.535014035955026,
+        2.7687248986929847
+      ],
+      "command_cm": [
+        -4.00931751092719,
+        0.5092135205083759,
+        2.86872490344273
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 1.2019114037268388,
+      "rot_err_deg": 0.19600479025654918,
+      "action": [
+        -0.0979,
+        -0.258,
+        1.0,
+        -0.0098,
+        -0.0181,
+        0.01,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 144,
+      "phase": "place",
+      "phase_step": 5,
+      "measured_cm": [
+        -3.974455862000982,
+        0.5127368195408244,
+        2.864845365229678
+      ],
+      "command_cm": [
+        -4.005556029322125,
+        0.5058719555806513,
+        2.964845369979423
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 1.105987307853231,
+      "rot_err_deg": 0.1274018524921723,
+      "action": [
+        -0.311,
+        -0.0686,
+        1.0,
+        -0.0064,
+        -0.0117,
+        0.0065,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 145,
+      "phase": "place",
+      "phase_step": 6,
+      "measured_cm": [
+        -4.019005484340896,
+        0.517597823961742,
+        2.9658240748682707
+      ],
+      "command_cm": [
+        -4.012238401805122,
+        0.506601062266414,
+        3.065824079618016
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 1.0044885849317648,
+      "rot_err_deg": 0.08281039632351078,
+      "action": [
+        0.0677,
+        -0.11,
+        1.0,
+        -0.0042,
+        -0.0076,
+        0.0042,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 146,
+      "phase": "place",
+      "phase_step": 7,
+      "measured_cm": [
+        -4.034310587123677,
+        0.4840433187412413,
+        3.0547136954620053
+      ],
+      "command_cm": [
+        -4.019187791300403,
+        0.4974444909428186,
+        3.124713697594734
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 0.9160117451574097,
+      "rot_err_deg": 0.05382556083353108,
+      "action": [
+        0.1512,
+        0.134,
+        0.7,
+        -0.0027,
+        -0.005,
+        0.0027,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 147,
+      "phase": "place",
+      "phase_step": 8,
+      "measured_cm": [
+        -4.032707911377826,
+        0.5192505387773628,
+        3.1522244635541377
+      ],
+      "command_cm": [
+        -4.018626527957531,
+        0.5097670228557,
+        3.222224465686866
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 0.8183902168168047,
+      "rot_err_deg": 0.034984269097113954,
+      "action": [
+        0.1408,
+        -0.0948,
+        0.7,
+        -0.0018,
+        -0.0032,
+        0.0018,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 148,
+      "phase": "place",
+      "phase_step": 9,
+      "measured_cm": [
+        -4.001255335480181,
+        0.5169244006563213,
+        3.2136597015299735
+      ],
+      "command_cm": [
+        -4.007618179295889,
+        0.5089528698700267,
+        3.2836597036627024
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 0.756700804900602,
+      "rot_err_deg": 0.02273979026173753,
+      "action": [
+        -0.0636,
+        -0.0797,
+        0.7,
+        -0.0011,
+        -0.0021,
+        0.0012,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 149,
+      "phase": "place",
+      "phase_step": 10,
+      "measured_cm": [
+        -4.006528515077483,
+        0.5266470099905977,
+        3.3262791483371683
+      ],
+      "command_cm": [
+        -4.009463996102119,
+        0.5123557943688692,
+        3.396279150469897
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 0.644309722195895,
+      "rot_err_deg": 0.014780181153019089,
+      "action": [
+        -0.0294,
+        -0.1429,
+        0.7,
+        -0.0007,
+        -0.0014,
+        0.0008,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 150,
+      "phase": "place",
+      "phase_step": 11,
+      "measured_cm": [
+        -3.9912060119960837,
+        0.5067475514829748,
+        3.3970396519853145
+      ],
+      "command_cm": [
+        -4.004101084115067,
+        0.5053909646977459,
+        3.4670396541180435
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 0.5735051571384717,
+      "rot_err_deg": 0.009603811248040208,
+      "action": [
+        -0.129,
+        -0.0136,
+        0.7,
+        -0.0005,
+        -0.0009,
+        0.0005,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 151,
+      "phase": "place",
+      "phase_step": 12,
+      "measured_cm": [
+        -4.013751982138103,
+        0.4897429931787576,
+        3.463354814073684
+      ],
+      "command_cm": [
+        -4.011992119154734,
+        0.49943936325748783,
+        3.5333548162064123
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 0.5070696857884325,
+      "rot_err_deg": 0.006239610231447758,
+      "action": [
+        0.0176,
+        0.097,
+        0.7,
+        -0.0003,
+        -0.0006,
+        0.0003,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 152,
+      "phase": "place",
+      "phase_step": 13,
+      "measured_cm": [
+        -4.008079825310632,
+        0.5361573949910391,
+        3.5343954656054803
+      ],
+      "command_cm": [
+        -4.01000705814448,
+        0.5156844219236125,
+        3.6043954677382093
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 0.4369490938255753,
+      "rot_err_deg": 0.004056178437051297,
+      "action": [
+        -0.0193,
+        -0.2047,
+        0.7,
+        -0.0002,
+        -0.0004,
+        0.0002,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 153,
+      "phase": "place",
+      "phase_step": 14,
+      "measured_cm": [
+        -3.982859896645212,
+        0.5510342035461072,
+        3.605971625143403
+      ],
+      "command_cm": [
+        -4.001179920038769,
+        0.52089128090506,
+        3.675971627276132
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 0.3682466320611067,
+      "rot_err_deg": 0.002635719482212691,
+      "action": [
+        -0.1832,
+        -0.3014,
+        0.7,
+        -0.0001,
+        -0.0002,
+        0.0001,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 154,
+      "phase": "place",
+      "phase_step": 15,
+      "measured_cm": [
+        -3.969023942286445,
+        0.5351899889964375,
+        3.667620921376939
+      ],
+      "command_cm": [
+        -3.9963371521637696,
+        0.5153458151589353,
+        3.737620923509668
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 0.30700247921951207,
+      "rot_err_deg": 0.001710789427085775,
+      "action": [
+        -0.2731,
+        -0.1984,
+        0.7,
+        -0.0001,
+        -0.0002,
+        0.0001,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 155,
+      "phase": "place",
+      "phase_step": 16,
+      "measured_cm": [
+        -3.991033551666792,
+        0.5158033715198339,
+        3.7329741429107686
+      ],
+      "command_cm": [
+        -4.001039025487545,
+        0.5102319168643207,
+        3.772974145406713
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 0.23832677719112294,
+      "rot_err_deg": 0.0011108196392333935,
+      "action": [
+        -0.1001,
+        -0.0557,
+        0.4,
+        -0.0001,
+        -0.0001,
+        0.0001,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 156,
+      "phase": "place",
+      "phase_step": 0,
+      "measured_cm": [
+        -4.0050146501474435,
+        0.5131161029337804,
+        3.7816577682163572
+      ],
+      "command_cm": [
+        -4.008029691455704,
+        0.5088883158492594,
+        3.8216577707123016
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 0.18882583052412344,
+      "rot_err_deg": 0.0007190449305822719,
+      "action": [
+        -0.0302,
+        -0.0423,
+        0.4,
+        -0.0,
+        -0.0001,
+        0.0,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [
+        {
+          "i": 156,
+          "event": "suture_pose_reached",
+          "trans_err_cm": 0.18882583052412344,
+          "rot_err_deg": 0.0007190449305822719,
+          "note": "the tool is at the commanded pose. Where the NEEDLE is depends on how it sits in the jaws, which this deployment never measured."
+        },
+        {
+          "i": 156,
+          "from": "place",
+          "to": "hold",
+          "note": "suturing pose reached"
+        }
+      ],
+      "reason": "running"
+    },
+    {
+      "i": 157,
+      "phase": "hold",
+      "phase_step": 1,
+      "measured_cm": [
+        -4.025727328958879,
+        0.5087005626093356,
+        3.791210670273401
+      ],
+      "command_cm": [
+        -4.018385943722486,
+        0.5066805314858934,
+        3.831210672769346
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 0.17963380374242183,
+      "rot_err_deg": 0.00046720719395354363,
+      "action": [
+        0.0734,
+        -0.0202,
+        0.4,
+        -0.0,
+        -0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 158,
+      "phase": "hold",
+      "phase_step": 2,
+      "measured_cm": [
+        -4.013170033736882,
+        0.5191525210015212,
+        3.834489769536542
+      ],
+      "command_cm": [
+        -4.012107402172487,
+        0.5119065032012992,
+        3.874489772032487
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 0.13649617282711807,
+      "rot_err_deg": 0.000304110369803046,
+      "action": [
+        0.0106,
+        -0.0725,
+        0.4,
+        -0.0,
+        -0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 159,
+      "phase": "hold",
+      "phase_step": 3,
+      "measured_cm": [
+        -4.006390339134112,
+        0.5237053652724925,
+        3.861187755148147
+      ],
+      "command_cm": [
+        -4.008717542808994,
+        0.5141829275159426,
+        3.9011877576440908
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 0.1107589944196093,
+      "rot_err_deg": 0.00019632130351540457,
+      "action": [
+        -0.0233,
+        -0.0952,
+        0.4,
+        -0.0,
+        -0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 160,
+      "phase": "hold",
+      "phase_step": 4,
+      "measured_cm": [
+        -4.013498519995486,
+        0.5244013683922583,
+        3.921225472338674
+      ],
+      "command_cm": [
+        -4.012639688549053,
+        0.5174920602265975,
+        3.938365883993311
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 0.05285843360709506,
+      "rot_err_deg": 0.00012725085177303974,
+      "action": [
+        0.0086,
+        -0.0691,
+        0.1714,
+        -0.0,
+        -0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 161,
+      "phase": "hold",
+      "phase_step": 5,
+      "measured_cm": [
+        -4.004741260522149,
+        0.5685492486737014,
+        3.936538672549614
+      ],
+      "command_cm": [
+        -4.0069474190786725,
+        0.5485492474257291,
+        3.948319315827241
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 0.07248751163391423,
+      "rot_err_deg": 8.217667939310496e-05,
+      "action": [
+        -0.0221,
+        -0.2,
+        0.1178,
+        -0.0,
+        -0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 162,
+      "phase": "hold",
+      "phase_step": 6,
+      "measured_cm": [
+        -3.986954210491575,
+        0.5738838009907308,
+        3.945643918900405
+      ],
+      "command_cm": [
+        -3.9953858116713494,
+        0.5538837997427586,
+        3.954237823535612
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 0.07729872390707022,
+      "rot_err_deg": 5.0861417972284685e-05,
+      "action": [
+        -0.0843,
+        -0.2,
+        0.0859,
+        -0.0,
+        -0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 163,
+      "phase": "hold",
+      "phase_step": 7,
+      "measured_cm": [
+        -4.0117960693154044,
+        0.5302317411922147,
+        3.9574833635321953
+      ],
+      "command_cm": [
+        -4.011533045949729,
+        0.5212818120363897,
+        3.9619333984662464
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 0.02856766227580116,
+      "rot_err_deg": 3.21818214184805e-05,
+      "action": [
+        0.0026,
+        -0.0895,
+        0.0445,
+        0.0,
+        -0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 164,
+      "phase": "hold",
+      "phase_step": 8,
+      "measured_cm": [
+        -3.9893272068589525,
+        0.526715180013498,
+        3.9653905199736412
+      ],
+      "command_cm": [
+        -3.9969281822566005,
+        0.518996044362435,
+        3.9670731353337123
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 0.03132333316431465,
+      "rot_err_deg": 2.103532582565467e-05,
+      "action": [
+        -0.076,
+        -0.0772,
+        0.0168,
+        0.0,
+        -0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 165,
+      "phase": "hold",
+      "phase_step": 9,
+      "measured_cm": [
+        -4.004512459916854,
+        0.5302166390183063,
+        3.924356514304838
+      ],
+      "command_cm": [
+        -4.006798727119761,
+        0.5212719878540268,
+        3.940401022987653
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 0.052888606848433876,
+      "rot_err_deg": 1.3851512076399193e-05,
+      "action": [
+        -0.0229,
+        -0.0894,
+        0.1604,
+        0.0,
+        -0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [],
+      "reason": "running"
+    },
+    {
+      "i": 166,
+      "phase": "hold",
+      "phase_step": 0,
+      "measured_cm": [
+        -4.002151262092267,
+        0.5218345140450861,
+        3.912994218056418
+      ],
+      "command_cm": [
+        -4.006798727119761,
+        0.5212719878540268,
+        3.940401022987653
+      ],
+      "command_jaw_deg": -14.999999999999998,
+      "measured_jaw_deg": 2.0,
+      "trans_err_cm": 0.06038445258811648,
+      "rot_err_deg": 9.272389997560756e-06,
+      "action": [
+        -0.0311,
+        -0.0601,
+        0.2,
+        0.0,
+        -0.0,
+        0.0,
+        0.0
+      ],
+      "jaw": {
+        "commanded_deg": -14.999999999999998,
+        "measured_deg": 2.0,
+        "effort": 1.206823891356144,
+        "residual_deg": 17.0,
+        "residual_excess_deg": 17.0,
+        "effort_excess": 1.186823891356144,
+        "jaw_blocked": true,
+        "grasp_verified": false,
+        "note": "jaw stopped +17.00 deg past the empty-jaw stop (margin 1.00 deg); effort +1.1868 over the empty-jaw draw; OBSERVED ONLY - the grasp is not verified"
+      },
+      "clamps": [],
+      "events": [
+        {
+          "i": 166,
+          "from": "hold",
+          "to": "done",
+          "note": "success"
+        }
+      ],
+      "reason": "success"
+    }
+  ]
+}

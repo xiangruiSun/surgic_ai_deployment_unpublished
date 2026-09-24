@@ -1,0 +1,40 @@
+% Real-robot phase machine (deploy/surgicai_rl_deploy/sequence.py).
+\begin{tikzpicture}[
+  font=\scriptsize,
+  >={Stealth[length=3.5pt]},
+  ph/.style={draw=cOrange, fill=cOrange!10, rounded corners=2pt, minimum height=6mm,
+             inner sep=2pt, align=center, line width=0.5pt},
+  rl/.style={ph, draw=cBlue, fill=cBlue!10},
+  gate/.style={draw=cDark, fill=white, diamond, aspect=2.0, inner sep=0.6pt, align=center},
+  stop/.style={draw=cRed, fill=cRed!8, rounded corners=2pt, minimum height=6mm,
+               inner sep=2pt, align=center, line width=0.5pt},
+  flow/.style={->, draw=cDark, line width=0.5pt},
+  note/.style={font=\tiny, text=cMuted, align=center},
+  node distance=2.4mm,
+]
+\node[ph] (stage) {stage};
+\node[rl, right=of stage] (appr) {approach\\{\tiny RL or D2}};
+\node[ph, right=of appr] (desc) {descend\\{\tiny 7\,mm}};
+\node[ph, right=of desc] (settle) {settle};
+\node[ph, right=of settle] (close) {close\\{\tiny jaw}};
+\node[ph, right=of close] (obs) {observe};
+\node[gate, below=5mm of obs] (g) {gate};
+\node[ph, left=4mm of g] (lift) {lift\\{\tiny 1.5\,cm}};
+\node[ph, left=of lift] (trans) {transport\\{\tiny via point}};
+\node[ph, left=of trans] (place) {place};
+\node[ph, left=of place] (hold) {hold};
+\node[stop, right=6mm of g] (abort) {abort: hold last\\command, jaw\\never opened};
+
+\draw[flow] (stage) -- (appr);
+\draw[flow] (appr) -- (desc);
+\draw[flow] (desc) -- (settle);
+\draw[flow] (settle) -- (close);
+\draw[flow] (close) -- (obs);
+\draw[flow] (obs) -- (g);
+\draw[flow] (g) -- (lift);
+\draw[flow] (lift) -- (trans);
+\draw[flow] (trans) -- (place);
+\draw[flow] (place) -- (hold);
+\draw[flow, draw=cRed] (g) -- (abort);
+\node[note, below=0.8mm of abort, text width=30mm] {on refusal, slip, stale pose, tracking lag or step budget, from any phase};
+\end{tikzpicture}

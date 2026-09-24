@@ -1,5 +1,9 @@
 # SurgicAI Suturing Policy Sim2Real
 
+> 📄 **Draft paper (prepared for publication, not yet peer reviewed):**
+> [*Autonomous Suturing Task: From Hierarchical Policies in Simulation to a Guarded Needle-Handling Pipeline on a Real dVRK*](paper/surgical_rl_draft.pdf)
+> — see [`paper/`](paper/README.md) for sources and figures.
+
 本仓库把 SurgicAI Approach 阶段整理成一个可检查、可替换输入、失败可定位的主入口：
 
 ```text

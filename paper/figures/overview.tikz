@@ -1,0 +1,70 @@
+% System overview. Included with \input; needs tikz libraries
+% positioning, arrows.meta, fit, backgrounds, calc.
+\begin{tikzpicture}[
+  font=\scriptsize,
+  >={Stealth[length=4pt]},
+  box/.style={draw=cMuted, rounded corners=2pt, fill=white, align=center,
+              inner sep=2.5pt, minimum height=6.5mm, line width=0.5pt},
+  sim/.style={box, fill=cBlue!10, draw=cBlue},
+  per/.style={box, fill=cAqua!12, draw=cAqua!80!black},
+  cal/.style={box, fill=cViolet!10, draw=cViolet},
+  dep/.style={box, fill=cOrange!10, draw=cOrange},
+  hw/.style={box, fill=cGray!18, draw=cMuted},
+  flow/.style={->, draw=cDark, line width=0.5pt},
+  dashflow/.style={->, draw=cMuted, dashed, line width=0.5pt},
+  tag/.style={font=\tiny, text=cMuted, align=center},
+  lanetitle/.style={font=\scriptsize\bfseries, text=cDark, rotate=90, anchor=south},
+]
+% ---- lanes (drawn first)
+\fill[cGrid!45, rounded corners=3pt] (-0.35, 0.55) rectangle (17.1, -1.55);
+\fill[cGrid!45, rounded corners=3pt] (-0.35,-1.75) rectangle (17.1, -2.85);
+\fill[cGrid!45, rounded corners=3pt] (-0.35,-3.35) rectangle (17.1, -5.45);
+\node[lanetitle] at (-0.12,-0.5) {Simulation};
+\node[lanetitle] at (-0.12,-2.3) {Perception};
+\node[lanetitle] at (-0.12,-4.4) {Real robot};
+
+% ---- simulation
+\node[sim, minimum width=26mm] (ambf) at (1.55,0) {AMBF + SRC\\needle phantom};
+\node[sim, minimum width=26mm] (hlp) at (4.9,0) {high-level policy\\PPO, Discrete(5)};
+\node[sim, text width=46mm] (llp) at (9.35,0)
+  {five low-level TD3+BC policies: Approach, Place,\\Insert, Regrasp, Pullout};
+\node[sim, minimum width=26mm] (bench) at (14.9,0) {chain success,\\ROS\,2 replication};
+\node[sim, minimum width=26mm] (dadata) at (4.9,-1.0) {sim RGB + projected\\point-cloud depth};
+\draw[flow] (ambf) -- (hlp);
+\draw[flow] (hlp) -- (llp);
+\draw[flow] (llp) -- (bench);
+\draw[flow] (ambf.south) |- (dadata.west);
+
+% ---- perception
+\node[per, minimum width=26mm] (ecm) at (1.55,-2.3) {ECM image\\(real dVRK)};
+\node[per, minimum width=26mm] (da) at (4.9,-2.3) {Depth Anything V2,\\fine-tuned: metric depth};
+\node[per, minimum width=26mm] (fp) at (8.3,-2.3) {FoundationPose\\RGB + mask + depth};
+\node[per, minimum width=22mm] (needle) at (11.75,-2.3) {needle pose ${}^{C}\mathbf{T}_{N}$};
+\node[per, minimum width=26mm] (aruco) at (15.1,-2.3) {ArUco hand-eye\\${}^{E}\mathbf{T}_{C}$ (5--10\,mm)};
+\draw[flow] (ecm) -- (da);
+\draw[flow] (da) -- (fp);
+\draw[flow] (fp) -- (needle);
+\draw[dashflow] (dadata) -- node[right, tag]{fine-tune} (da);
+
+% ---- real robot: calibration + deployment
+\node[cal, minimum width=26mm] (coarse) at (1.55,-3.95) {coarse grasp target\\${}^{E}\mathbf{T}_{C}\,{}^{C}\mathbf{T}_{N}\,\mathbf{T}_{\mathrm{grasp}}$};
+\node[cal, minimum width=26mm] (fine) at (4.9,-3.95) {+ Bernstein residual\\(affine $\rightarrow$ degree $n$)};
+\node[dep] (contract) at (8.75,-3.95)
+  {contract layer: roll in $(-2\pi,0]$,\\1.0\,mm\,/\,3$^\circ$ steps, open-loop observation};
+\node[dep, minimum width=24mm] (seq) at (12.55,-3.95) {guarded phase machine\\(Fig.~\ref{fig:phases})};
+\node[hw, minimum width=20mm] (psm) at (15.6,-3.95) {PSM1\\\texttt{servo\_cp}/\texttt{move\_cp}};
+\node[hw] (op) at (9.3,-4.95) {operator gate + fail-closed precheck};
+\node[dep] (stage) at (4.9,-4.95) {staging into policy support};
+\draw[flow] (coarse) -- (fine);
+\draw[flow] (fine) -- (contract);
+\draw[flow] (contract) -- (seq);
+\draw[flow] (seq) -- (psm);
+\draw[flow] (op.east) -| (seq.south);
+\draw[flow] (stage.east) -- (op.west);
+
+
+% bus from perception down to the coarse target
+\draw[flow] (needle.south) -- ++(0,-0.47) -| (coarse.north);
+\draw[draw=cDark, line width=0.5pt] (aruco.south) -- ++(0,-0.47) -- ($(needle.south)+(0,-0.47)$);
+\draw[dashflow] ($(llp.south)+(0.95,0)$) -- node[pos=0.13, right, tag, align=left]{released\\checkpoints} ($(contract.north)+(1.4,0)$);
+\end{tikzpicture}
